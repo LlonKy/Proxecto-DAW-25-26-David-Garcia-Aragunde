@@ -9,93 +9,90 @@
   - [4- Requirimentos técnicos](#4--requirimentos-técnicos)
   - [5- Planificación](#5--planificación)
 
-> _EXPLICACIÓN_: Este documento será a páxina de explicación de en que consiste o teu proxecto. Coida a súa redacción con todo ou teu mimo. Elimina posteriormente todas as lineas "EXPLICACIÓN" cando creas finalizada a súa redacción.
-> Podes acompañar á redacción deste ficheiro con imaxes, pero non abuses deles.
-> Explica da mellor forma posible de en que consiste o proxecto é que ferramentas e linguaxes de programación empregarás.
-
 ## 1- Idea do proxecto
 
-> _EXPLICACIÓN_: Realiza unha breve descrición do anteproxecto. Resalta o fundamental *coas túas propias palabras\*\*. Utiliza unha linguaxe correcta,*pero natural\*\*, que o entenda todo o mundo, mesmo e en especial, as persoas que non teñan un coñecemento técnico avanzado. Pode ser un estracto ou resumo de apartados que xa contemples noutros ficheiros.
+Swaply es una plataforma web donde cualquier persona puede ofrecer una habilidad que domina e intercambiarla por otra que quiera aprender, sin que haya dinero de por medio. Publicas lo que sabes hacer y lo que te gustaría aprender, y la plataforma te conecta con alguien que tiene necesidades complementarias a las tuyas.
+
+Mi objetivo es crear una comunidad donde el conocimiento sea la moneda de cambio, accesible para cualquiera independientemente de su formación o situación económica.
+
+---
 
 ## 2- Contextualización
 
-> _EXPLICACIÓN_: Realiza unha contextualización que identifique as necesidades ás que dará resposta o proxecto.
->
-> Neste apartado trátase de describir a análise realizada e a toma de decisións adoptada sobre aspectos básicos ou iniciais do proxecto como:
->
-> - En que consiste o noso proxecto? Cal é o propósito principal da aplicación a desenvolver? Cales son os obxectivos?
-> - O desenvolvemento da aplicación abre unha oportunidade de negocio? É posible comercializala? Como?
+### 2.1 ¿En qué consiste el proyecto?
+
+La idea nace de una necesidad real: el aprendizaje informal entre personas ocurre constantemente, pero no existe ninguna plataforma consolidada que lo facilite de forma moderna y accesible. Plataformas como Skillshare o Udemy funcionan con suscripción de pago, lo que excluye a mucha gente. Swaply elimina esa barrera completamente.
+
+La plataforma contará con perfiles de usuario con habilidades ofrecidas y buscadas, sistema de búsqueda y filtrado por categorías, propuestas de intercambio entre usuarios, chat interno, sistema de valoraciones y panel de estadísticas personales.
+
+### 2.2 ¿Tiene oportunidad de negocio?
+
+Aunque en su versión inicial Swaply sería gratuita, el modelo tiene viabilidad comercial a través de una membresía premium con funcionalidades avanzadas, acuerdos con plataformas educativas o publicidad no intrusiva. El mercado de intercambio de habilidades está muy fragmentado y sin un líder claro, lo que representa una oportunidad real.
+
+---
 
 ## 3- Estudio de alternativas e viabilidade
 
 ### 3.1- Estudio de alternativas
 
-> _EXPLICACIÓN_: Neste apartado enumerarás unha serie de alternativas que se tiveron en conta e xustificarase a alternativa elixida, razoando o motivo de rexeitamento das outras.
-> Teranse en conta os seguintes criterios de valoración para determinar a mellor alternativa:
->
-> - Técnicos.
-> - Económicos.
-> - Temporalidade.
-> - Recursos.
-> ...
->
-> **Exemplo**
->
-> Un cliente dunha clínica odontolóxica precisa unha plataforma web para rexistrar, xestionar datos dos clientes. Analizamos tres alternativas para o desenrolo:
->
-> Alternativas
->
-> - A1- Desenvolvemento dende cero con API Rest java spring Boot + HTML5 + CSS3 + javascript nativo.
-> - A2- Desenvolvemento desde cero con API Rest Node.js + HTML5 + CSS3 + javascript nativo.
-> - A3- Desenvolvemento desde cero modelo MVC en php + HTML5 + CSS3 + javascript nativo.
-> - A4- Framework larabel + React.js + Tailwind.
-> 
-> | **Alternativa** |  **Viabilidade técnica** | **Viabilidade económica** | **Temporalidade** | **Valoración Global** |
-> | ------ | ------ |  ------ | ------ | ------ |
-> | A1 | Baixa-media (4/10): contrólanse todas as tecnoloxías salvo java spring boot. Spring Boot é un framework empresarial potente, pero con una curva de aprendizaxe considerable. **Fortalezas**: Arquitectura sólida, escalabre, profesional. **Debilidades**: Curva de aprendizaxe alta, configuración complexa. | Medio (6/10): precisaríamos un hosting con soporte java e servidor de aplicacións ou ben un VPS. Custe máis elevado no hosting. O resto de SW gratuíto. | Viabilidade baixa (3/10): curva de aprendizaxe de Spring Boot. Larga duración, de 4 a 6 meses | **5/10** |
-> | A2 | Media-Alta (6/10): Node permite construír APIs REST facilmente. **Fortalezas:** Simplicidade, entorno JavaScript unificado (backend e frontend). **Debilidades:** Necesidade de estruturar ben o proxecto dende cero. | Alta (8/10): Require hosting compatible con Node.js (plataformas como Render, Railway, Verceo o Fly.io) permiten despregar de forma gratuita ou de baixo custe. | Viabilidade media (6/10): duración entre 2 meses e medio e 4. | **7/10** |
-> | A3 | Alta (9/10): non existe curva de aprendizaxe coas linguaxes seleccionadas. **Fortalezas:** Linguaxe coñecido, baixo limiar de entrada, execución rápida. **Debilidades:** Require implementar manualmente aspectos como seguridade, rutas y validacións. | Alta (9/10): Hosting compartido PHP/MySQL dende 2–5 €/mes. | Viabilidade alta (8/10): desenvolvemento e despregue rápido, de 2 a 3 meses.| **9/10** |
-> | A4 | Media (6/10): Laravel ten unha curva de aprendizaxe intermedia. React e Tailwind requiren aprendizaxe adicional. Require coñecementos do frontend moderno. **Fortalezas:** Stack profesional, mantible e modular. **Debilidades:** Exceso de complexidade para un só desarrollador sen experiencia en frameworks front. | Alta (8/10): Ferramentas gratuitas. Laravel require hosting con Composer, PHP ≥ 8 e a miudo acceso SSH. React require build e despregue separado ou integración tipo SPA servida dende Laravel. Hosting adecuados (con SSH e Composer) entre 5-10€/mes. Posible despregue gratuíto de frontend (Vercel) y backend en hosting PHP. | Viabilidade baixa (5/10): curva de aprendizaxe e configuración elevada (4-5 meses) | **5/10** |
+- **A1** — Desarrollo desde cero con API REST Java Spring Boot + HTML5 + CSS3 + JavaScript nativo
+- **A2** — Desarrollo desde cero con API REST Node.js + Express + MySQL + Angular + TypeScript
+- **A3** — Desarrollo desde cero modelo MVC en PHP + HTML5 + CSS3 + JavaScript nativo
+- **A4** — PHP API REST + MySQL + Angular + TypeScript
+
+| Alternativa | Viabilidad técnica | Viabilidad económica | Temporalidad | Valoración global |
+|---|---|---|---|---|
+| **A1** | Baja-Media (4/10): Spring Boot es un framework empresarial potente pero con una curva de aprendizaje considerable y llevo más de un año sin usar Java. **Fortalezas:** arquitectura sólida y escalable. **Debilidades:** configuración compleja, curva de aprendizaje alta. | Media (5/10): requiere hosting con soporte Java o un VPS, lo que eleva el coste respecto a otras opciones. | Baja (3/10): la curva de aprendizaje de Spring Boot haría que el desarrollo se alargara. | **4/10** |
+| **A2** | Alta (8/10): Node.js permite usar JavaScript tanto en frontend como en backend, lo que da coherencia al proyecto. Angular lo estoy usando actualmente en prácticas. **Fortalezas:** stack unificado en JS/TS, alta empleabilidad. **Debilidades:** Node.js es nuevo para mí, aunque la curva es asumible. | Alta (8/10): despliegue posible en Railway con capa gratuita. MySQL y todas las herramientas son gratuitas. | Alta (7/10): al conocer JavaScript y Angular, el salto a Node.js es menor que otras alternativas. | **8/10** |
+| **A3** | Media (6/10): conozco PHP y el patrón MVC, pero tiende a mezclar lógica de negocio con presentación y no permite aprovechar Angular. **Fortalezas:** tecnología conocida, fácil de desplegar. **Debilidades:** arquitectura menos limpia, difícil mantener separación frontend/backend. | Alta (9/10): hosting compartido muy barato, todas las herramientas gratuitas. | Alta (8/10): es la tecnología que más domino, el desarrollo sería más rápido. | **7/10** |
+| **A4** | Media-Alta (7/10): PHP para API REST es viable pero tiende a hibridarse con MVC si no se tiene mucha disciplina. **Fortalezas:** conozco PHP y Angular lo estoy aprendiendo. **Debilidades:** PHP no es el entorno más natural para una API REST limpia. | Alta (8/10): hosting barato, herramientas gratuitas. | Media (6/10): PHP con API REST requiere más disciplina y puede ralentizar el desarrollo. | **7/10** |
 
 ### 3.2 Xustificación da alternativa
 
->_EXPLICACIÓN_: Tras analizar os resultados seleccionamos unha alternativa. Xustifica a elección indicando as razóns da elección.
->
-> **Exemplo**
->
-> - A alternativa A3 (PHP MVC desde cero) se consolida como a máis viable globalmente, e polo tanto é a elexida xa que:
->
->   - É a máis económica (hosting moi barato).
->   - Ten mínima fricción técnica para o despregue.
->   - Permite obter un prototipo funcional en pouco tempo.
->   - Emprega tecnoloxías coñecidas polo alumno.
->   - Rapidez de desenvolvemento.
->
-> - A2 (Node.js) poderíase considerar como unha opción moderna e máis axeitada se se dispuxera de máis tempo para implementala. Permitiría ampliar os coñecementos técnicos.
->
-> - As opcións A1 (Spring Boot) e A4 (Larabel + React) resultan menos axeitadas pola súa complexidade e custo.
+Me decanto por **A2 (Node.js + Express + MySQL + Angular)** porque es la opción con mayor valoración global. Unifica todo el proyecto bajo JavaScript/TypeScript, es coherente tecnológicamente y tiene más proyección profesional. Como ya estoy usando Angular y he empezado con Node en prácticas y conozco JavaScript, el salto a Node.js es asumible. A4 queda como segunda opción si durante el desarrollo surgieran dificultades con Node.js.
+
+---
 
 ## 4- Requirimentos técnicos
 
->_EXPLICACIÓN_: - Que tecnoloxías son as máis axeitadas para a realización do proxecto?
 
-> _EXPLICACIÓN_: Descrición dos medios materiais e das tecnoloxías necesarias que se usarán para desenvolver o proxecto incluíndo as linguaxes de programación frontend e backend, técnicas, librerías, bases de datos, servizos usados, servidores, API’s, etc.
->
-> - **Infraestructura:** dominio web, hosting, servidor de base de datos, almacenamento, memoria, ...
-> - **Backend:** tecnoloxías usadas.
-> - **Frontend:** tecnoloxías usadas
+### Infraestructura
+- **Git + GitHub:** Control de versiones y alojamiento del repositorio. Usaré GitFlow como metodología de ramas, con ramas por feature que se mergean a develop y de develop a main, para mantener el proyecto limpio y ordenado y poder recuperar cambios si algo falla.
+
+- **Docker y Docker Compose:** Para gestionar la base de datos MySQL en local sin depender de herramientas como XAMPP. Docker permite tener el entorno de base de datos aislado, reproducible y fácil de configurar en cualquier máquina.
+
+- **Railway:** Plataforma de despliegue en la nube que permite desplegar tanto la API de Node.js como la base de datos MySQL de forma sencilla conectando directamente el repositorio de GitHub. Tiene capa gratuita suficiente para este proyecto.
+
+### Backend
+- **Node.js + Express.js:** Node.js permite ejecutar JavaScript en el servidor, lo que unifica el lenguaje en todo el proyecto junto con Angular en el frontend. Express es un framework que facilita la creación de una API REST limpia y organizada por rutas y middlewares.
+
+- **Prisma:** ORM para Node.js que facilita el acceso a la base de datos MySQL de forma segura y tipada. Permite definir el esquema de la base de datos en un único fichero y genera las consultas automáticamente, reduciendo el riesgo de errores y de inyección SQL.
+
+- **MySQL:** Base de datos relacional, amplia documentación y por ser que más he usado.
+
+- **JWT (jsonwebtoken):** Librería para generar y verificar tokens de autenticación. Permite proteger los endpoints de la API mediante middlewares.
+
+- **bcryptjs:** Librería para encriptar las contraseñas de los usuarios antes de almacenarlas en la base de datos, evitando que se guarden en texto plano.
+
+### Frontend
+- **Angular + TypeScript:** Lo estoy usando actualmente en mis prácticas, lo que reduce el tiempo de aprendizaje.
+
+- **RxJS:** Librería de programación reactiva integrada en Angular. La usaré para gestionar las peticiones HTTP de forma asíncrona, encadenar operaciones y manejar el estado de la aplicación.
+
+- **CSS3 (responsive mobile first):** Los estilos se desarrollarán desde cero siguiendo el enfoque mobile first.
+
+- **Chart.js:** Librería JavaScript para generar gráficas y visualizaciones de datos. La usaré en el panel de estadísticas del perfil de usuario para mostrar métricas como intercambios completados o valoración media.
+
+- **AOS (Animate On Scroll):** Librería para añadir animaciones de entrada a los elementos de la página al hacer scroll, mejorando la experiencia visual de la landing page.
+
+- **Reactive Forms de Angular:** Sistema de formularios de Angular que permite una validación robusta tanto en el cliente como coordinada con el servidor.
+
+- **Figma:** Prototipado de la página y diferentes funcionalidades.
+
+- **Accesibilidad WCAG:** La interfaz se desarrollará siguiendo los principios básicos de accesibilidad web: contraste suficiente, etiquetas ARIA, navegación por teclado y textos alternativos en imágenes.
 
 ## 5- Planificación
 
-> _EXPLICACIÓN_: Inclúe un calendario co tempo estimado a adicar a cada fase do proxecto.
->
-> O proxecto estará formado polas seguintes fases:
->
-> - Estudo preliminar
-> - Análise
-> - Deseño
-> - Codificación e probas (debe ser a fase máis longa).
->
-> Debe facerse un calendario ou un diagrama de Gantt indicando, para cada fase, a data de inicio, a súa duración e breve descrición das tarefas a realizar.
+![Diagrama de Gantt](/doc/img/Diagrama%20de%20Gantt.jpeg)
 
 [**<-Anterior**](../README.md)
