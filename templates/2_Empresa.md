@@ -1,19 +1,21 @@
 # 1- Empresa
+  # Índice
 
-- [1- Empresa](#1--empresa)
-  - [1.1- Idea de negocio](#11--idea-de-negocio)
-  - [1.2- Xustificación da idea](#12--xustificación-da-idea)
-  - [1.3- Segmento de clientes](#13--segmento-de-clientes)
-  - [1.4- Competencia](#14--competencia)
-  - [1.5- Proposta de valor](#15--proposta-de-valor)
-  - [1.6- Forma xurídica](#16--forma-xurídica)
-  - [1.7- Investimentos](#17--investimentos)
-    - [1.7.1- Custos](#171--custos)
-    - [1.7.2- Ingresos](#172--ingresos)
-  - [1.8- Viabilidade](#18--viabilidade)
-    - [1.8.1- Viabilidade técnica](#181--viabilidade-técnica)
-    - [1.8.2 - Viabilidade económica](#182---viabilidade-económica)
-    - [1.8.3- Conclusión](#183--conclusión)
+1. [Idea del proyecto](#1-idea-del-proyecto)
+2. [Contextualización](#2-contextualización)
+3. [Estudio de alternativas y viabilidad](#3-estudio-de-alternativas-y-viabilidad)
+   - 3.1 [Estudio de alternativas](#31-estudio-de-alternativas)
+   - 3.2 [Justificación de la alternativa](#32-justificación-de-la-alternativa)
+4. [Requisitos técnicos](#4-requisitos-técnicos)
+5. [Planificación](#5-planificación)
+6. [Idea de negocio](#6-idea-de-negocio)
+   - 6.1 [Justificación de la idea](#61-justificación-de-la-idea)
+   - 6.2 [Segmento de clientes](#62-segmento-de-clientes)
+   - 6.3 [Competencia](#63-competencia)
+   - 6.4 [Propuesta de valor](#64-propuesta-de-valor)
+   - 6.5 [Forma jurídica](#65-forma-jurídica)
+   - 6.6 [Inversiones y costes](#66-inversiones-y-costes)
+   - 6.7 [Viabilidad](#67-viabilidad)
 
 ## 1. Idea de negocio
 
