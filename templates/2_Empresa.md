@@ -1,21 +1,19 @@
 # 1- Empresa
-  # Índice
+# Índice
 
-1. [Idea del proyecto](#1-idea-del-proyecto)
-2. [Contextualización](#2-contextualización)
-3. [Estudio de alternativas y viabilidad](#3-estudio-de-alternativas-y-viabilidad)
-   - 3.1 [Estudio de alternativas](#31-estudio-de-alternativas)
-   - 3.2 [Justificación de la alternativa](#32-justificación-de-la-alternativa)
-4. [Requisitos técnicos](#4-requisitos-técnicos)
-5. [Planificación](#5-planificación)
-6. [Idea de negocio](#6-idea-de-negocio)
-   - 6.1 [Justificación de la idea](#61-justificación-de-la-idea)
-   - 6.2 [Segmento de clientes](#62-segmento-de-clientes)
-   - 6.3 [Competencia](#63-competencia)
-   - 6.4 [Propuesta de valor](#64-propuesta-de-valor)
-   - 6.5 [Forma jurídica](#65-forma-jurídica)
-   - 6.6 [Inversiones y costes](#66-inversiones-y-costes)
-   - 6.7 [Viabilidad](#67-viabilidad)
+1. [Idea de negocio](#1-idea-de-negocio)
+2. [Justificación de la idea](#2-justificación-de-la-idea)
+3. [Segmento de clientes](#3-segmento-de-clientes)
+4. [Competencia](#4-competencia)
+5. [Propuesta de valor](#5-propuesta-de-valor)
+6. [Forma jurídica](#6-forma-jurídica)
+7. [Inversiones y costes](#7-inversiones-y-costes)
+   - 7.1 [Costes](#71-costes)
+   - 7.2 [Ingresos](#72-ingresos)
+8. [Viabilidad](#8-viabilidad)
+   - 8.1 [Viabilidad técnica](#81-viabilidad-técnica)
+   - 8.2 [Viabilidad económica](#82-viabilidad-económica)
+   - 8.3 [Conclusión](#83-conclusión)
 
 ## 1. Idea de negocio
 
