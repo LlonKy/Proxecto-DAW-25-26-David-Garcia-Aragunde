@@ -15,85 +15,123 @@
     - [1.8.2 - Viabilidade económica](#182---viabilidade-económica)
     - [1.8.3- Conclusión](#183--conclusión)
 
-> _EXPLICACIÓN_: Neste apartado desenvolveredes todo o referente os módulos de Empresa e iniciativa emprendedora e de FOL.
+## 1. Idea de negocio
 
-## 1.1- Idea de negocio
+Swaply es una plataforma web donde la gente puede intercambiar habilidades sin que haya dinero de por medio. El producto principal es el servicio de conexión entre usuarios: publicas lo que sabes y lo que quieres aprender, y la plataforma te conecta con alguien que tiene necesidades complementarias.
 
-> _EXPLICACIÓN_: Define o producto central, o valor engadido e a utilidade. Se se ogrecen productos aumentados, indicalo tamén.
+Lo que la hace diferente es que no se trata de consumir contenido grabado, sino de aprender con otra persona real de forma bidireccional. Como funcionalidades extra, contará con un sistema de valoraciones para generar confianza entre usuarios, chat interno para coordinar los intercambios y un panel de estadísticas personales.
 
-## 1.2- Xustificación da idea
+---
 
-> _EXPLICACIÓN_: Neste apartado incluirase a información necesaria para xustificar a realización do proxecto. Debe indicarse como xurdiu a idea do proxecto, que obxectivo se persegue coa súa posta en marcha e/ou que problema vai resolver.
->
-> En este apartado indicade a nivel de idea de negocio:
->
-> - ¿Cal é a necesidade ou necesidades que se pretenden cubrir ou satisfacer?
-> - ¿Existen na actualidade aplicacións ou productos que tenten dar resposta a esa(s) necesidade(s)? ¿En que medida o conseguen?
-> - ¿Trátase de un segmento de mercado desabastecido ou insuficientemente atendido?
-> - ¿Un produto ineficiente? Un mercado novo?
->
-> Para sustentar as xustificación deberás proporcionar datos. Fontes máis utilizadas: INE, IGE, Informes sectoriais de
-> Industria, Statista... Deberás facer unha DAFO.
+## 2. Justificación de la idea
 
-## 1.3- Segmento de clientes
+La idea surge de ver que el aprendizaje informal entre personas ocurre constantemente, pero no existe ninguna plataforma que lo facilite de forma moderna y accesible. Plataformas como Skillshare o Udemy resuelven parcialmente el problema, pero son de pago, lo que excluye a mucha gente.
 
-> _EXPLICACIÓN_: Neste apartado debes indicar a quen irá dirixido o negocio, os potenciales clientes, respostando as seguinte pregunta: ¿A quen está dirixido?
->
-> Debes:
->
-> - Indicar o segmento ou segmentos cos rasgos principais e cuantificar o mercado.
-> - E se é o caso, diferenciar entre usuario e cliente.
+**¿Qué necesidad cubre?**
+La necesidad de aprender nuevas habilidades de forma gratuita y flexible, conectando directamente con otras personas.
 
-## 1.4- Competencia
+**¿Existen alternativas?**
+Sí, pero ninguna lo hace bien. Skillshare y Udemy son de pago y no contemplan el intercambio real. Simbi y otras plataformas de trueque de habilidades existen pero son pequeñas, poco conocidas y con interfaces muy anticuadas. No hay ningún líder claro en este nicho.
 
-> _EXPLICACIÓN_: Neste apartado deberase indicar que outras empresas operan no mercado. Que cota de mercado teñen e como están posicionadas. Existencia de productos/servizos substitutivos. Como están posicionados.
+**¿Es un mercado desatendido?**
+Sí. El nicho del intercambio de habilidades peer-to-peer está muy fragmentado. Mientras tanto el mercado del e-learning sigue creciendo: alcanzó los 316.200 millones de dólares en 2023 y se espera que llegue a los 661.600 millones en 2032 . Además España es el primer productor de cursos MOOC en Europa desde 2013 y ocupa el quinto puesto mundial en consumo de contenidos de educación online , lo que indica que hay un mercado receptivo a nuevas propuestas en este sector.
 
-## 1.5- Proposta de valor
+### DAFO
 
-> _EXPLICACIÓN_: **Apartado fundamental.**
->
-> - En que se diferencia fronte os competidores.
-> - Que melloras terá fronte os competidores.
-> - Que valor aporta ao mercado.
-> - ¿Porqué mercarán/contratarán este producto/servizo/idea fronte o resto?
+| | **Positivo** | **Negativo** |
+|---|---|---|
+| **Interno** | **Fortalezas:** Propuesta gratuita y diferenciada, stack tecnológico moderno, sin dependencia de contenido de terceros | **Debilidades:** Proyecto desarrollado por una sola persona, sin financiación inicial, marca desconocida |
+| **Externo** | **Oportunidades:** Mercado en crecimiento, nicho sin líder consolidado | **Amenazas:** Posible entrada de grandes plataformas al nicho, dependencia del crecimiento orgánico de la comunidad |
 
-## 1.6- Forma xurídica
+---
 
-> _EXPLICACIÓN_: Neste apartado deberedes indicar a forma xurídica: autónomo, soc. Cooperativa, SL,.. Explicando (nun par de frases) por que escolledes esta forma
+## 3. Segmento de clientes
 
-## 1.7- Investimentos
+Swaply está dirigido principalmente a dos perfiles:
 
-> _EXPLICACIÓN_: Neste apartado idicaremos o investimentos, aínda que sexa, só unha enumeración de todo o que necesitan (locais, infraestruturas, equipos, suministros, mobiliario...) cuantificando cada elemento.
+**Perfil 1 — Jóvenes de 18 a 35 años** con ganas de aprender cosas nuevas pero con poco presupuesto para cursos. Acostumbrados a plataformas digitales y fáciles de captar por redes sociales.
 
-### 1.7.1- Custos
+**Perfil 2 — Adultos de 35 a 55 años** que quieren aprender algo nuevo o reconvertirse profesionalmente sin apuntarse a formaciones formales de pago.
 
-> > _EXPLICACIÓN_: Neste apartado idicaremos o invertimento
->
-> - Diferenzando custos fixos de variables.
-> - Computando impostos e custos sociais.
+En cuanto a la diferencia entre usuario y cliente: en la versión gratuita son la misma persona. En el modelo premium, el cliente es quien paga por funcionalidades avanzadas o la academia que contrata un acuerdo de colaboración.
 
-### 1.7.2- Ingresos
+---
 
-> _EXPLICACIÓN_: Neste apartado indicarase unha previsión de ventas e unha política de prezos. Isto implicar apuntar unha previsión de ventas e unha política de prezos.
+## 4. Competencia
 
-## 1.8- Viabilidade
+| Competidor | Tipo | Posicionamiento |
+|---|---|---|
+| **Skillshare** | Plataforma de cursos de pago | Líder en aprendizaje creativo online |
+| **Udemy** | Plataforma de cursos de pago | Líder global en cursos generalistas |
+| **Simbi** | Intercambio de habilidades | Nicho pequeño, poco conocida |
+| **Timebank / LETS** | Trueque de tiempo local | Comunidades muy pequeñas y locales |
 
-### 1.8.1- Viabilidade técnica
+Como productos sustitutivos estarían los grupos de Facebook, subreddits o tutoriales de YouTube, pero ninguno ofrece una experiencia estructurada y bidireccional como Swaply.
 
-> _EXPLICACIÓN_: Neste subapartado deberás defender tendo en conta os datos xa aportados, a viabilidade da realización do proyecto.
-> Evidentemente, para poder xustificar a viabilidade económica do proyecto deberás ter en conta os ingresos. **Ainda que está na parte de empresa, este apartado é interesante dende o punto de vista técnico**
->
-> - Será posible dispoñer dos recursos humanos e medios de produción necesarios (materias primas, maquinaria, instalacións, etc.)?
-> - Existe algún impedimento técnico que dificulte o proceso produtivo?
+---
 
-### 1.8.2 - Viabilidade económica
+## 5. Propuesta de valor
 
-> _EXPLICACIÓN_: Neste subapartado deberás defender con datos a viabilidade da realización do proyecto, para elo debes indicar os custos e investimentos:
+Swaply se diferencia de la competencia en tres cosas:
 
-### 1.8.3- Conclusión
+- **Es gratuito:** no se paga por aprender, el conocimiento es la moneda de cambio.
+- **Aprendizaje real entre personas:** no se consume contenido grabado, se aprende con otra persona en un intercambio mutuo.
+- **Interfaz moderna:** las plataformas de intercambio actuales son anticuadas y poco usables. Swaply apuesta por una experiencia cuidada y responsive.
 
-> - É viable?
-> - Os beneficios do proxecto son superiores aos costes?
-> - As perdas poden cubrirse vía financiamento (por parte da administración pública, con subvencións, etc)?
+---
+
+## 6. Forma jurídica
+
+Si Swaply se convirtiera en un negocio real, la forma jurídica más adecuada sería la de **autónomo**. Al ser un proyecto unipersonal en fase inicial, es la opción más sencilla y económica: no requiere capital mínimo y los trámites son simples. Si en el futuro creciera y requiriera socios o más estructura, se valoraría convertirlo en una Sociedad Limitada.
+
+---
+
+## 7. Inversiones y costes
+
+La inversión inicial es baja al tratarse de un proyecto digital sin necesidad de local ni infraestructura física. Los principales costes serían:
+
+| Concepto | Coste estimado |
+|---|---|
+| Dominio web (.com, 1 año) | ~12 €/año |
+| Hosting básico (Railway o similar) | ~10-20 €/mes |
+| Herramientas de diseño y desarrollo (open source) | 0 € |
+| **Total inversión inicial aproximada** | **~250 € primer año** |
+
+### 7.1 Costes
+
+**Costes fijos:**
+- Dominio web: ~12 €/año
+- Hosting: ~10-20 €/mes según tráfico
+- Cuota de autónomo: 230 €/mes (tarifa reducida los primeros 24 meses)
+
+**Costes variables:**
+- Publicidad online para captación de usuarios según presupuesto disponible
+- Almacenamiento adicional si crece la base de usuarios
+
+### 7.2 Ingresos
+
+Se contemplan tres vías de ingresos:
+
+**1. Freemium:** plan gratuito con funcionalidades básicas y plan premium (~4,99 €/mes) con perfil destacado, estadísticas avanzadas y mayor visibilidad. Con 1.000 usuarios activos y un 5% de conversión serían unos 250 €/mes.
+
+**2. Publicidad no intrusiva:** banners o contenido patrocinado en la versión gratuita a partir de tener una base de usuarios suficiente.
+
+**3. Partnerships con academias:** acuerdos con academias o plataformas educativas para aparecer como recurso recomendado dentro de Swaply.
+
+---
+
+## 8. Viabilidad
+
+### 8.1 Viabilidad técnica
+
+El proyecto es técnicamente viable. Todas las tecnologías usadas son gratuitas y open source. No existe ningún impedimento técnico relevante: es una aplicación web estándar con tecnologías ampliamente probadas.
+
+### 8.2 Viabilidad económica
+
+La inversión inicial es baja y los costes fijos son asumibles. Con las tres vías de ingresos planteadas y un crecimiento progresivo de usuarios, el proyecto podría alcanzar el punto de equilibrio sin financiación externa.
+
+### 8.3 Conclusión
+
+Swaply es viable tanto técnica como económicamente. La inversión inicial es baja, el mercado está desatendido y el modelo de negocio tiene margen real de crecimiento. Los beneficios potenciales superan los costes, y en caso de pérdidas iniciales existen opciones de financiación pública para cubrirlas.
 
 [**<-Anterior**](../../README.md)
