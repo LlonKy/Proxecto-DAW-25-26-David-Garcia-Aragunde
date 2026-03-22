@@ -3,10 +3,15 @@
 - [Anteproxecto](#anteproxecto)
   - [1- Idea do proxecto](#1--idea-do-proxecto)
   - [2- Contextualización](#2--contextualización)
+    - [2.1 ¿En qué consiste el proyecto?](#21-en-qué-consiste-el-proyecto)
+    - [2.2 ¿Tiene oportunidad de negocio?](#22-tiene-oportunidad-de-negocio)
   - [3- Estudio de alternativas e viabilidade](#3--estudio-de-alternativas-e-viabilidade)
     - [3.1- Estudio de alternativas](#31--estudio-de-alternativas)
     - [3.2 Xustificación da alternativa](#32-xustificación-da-alternativa)
   - [4- Requirimentos técnicos](#4--requirimentos-técnicos)
+    - [Infraestructura](#infraestructura)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
   - [5- Planificación](#5--planificación)
 
 ## 1- Idea do proxecto
@@ -57,11 +62,21 @@ Me decanto por **A2 (Node.js + Express + MySQL + Angular)** porque es la opción
 
 
 ### Infraestructura
+- **Entorno de desarrollo:** Node.js con Express en local, MySQL gestionado 
+con Docker y Docker Compose para aislar el entorno de base de datos sin 
+depender de herramientas externas.
+- **Hosting de producción:** Para el despliegue se usará un VPS con soporte 
+Node.js y MySQL. La opción elegida es **Railway** o **Hostinger VPS**, 
+que ofrecen servidores con las siguientes características mínimas necesarias:
+  - Sistema operativo: Ubuntu Linux
+  - RAM: 1-2 GB
+  - Almacenamiento: 20 GB SSD
+  - Soporte Node.js y MySQL
+  - Certificado SSL gratuito
+  - Precio orientativo: ~5-10 €/mes
+- **Dominio web:** Registro de dominio .com por ~12 €/año
+
 - **Git + GitHub:** Control de versiones y alojamiento del repositorio. Usaré GitFlow como metodología de ramas, con ramas por feature que se mergean a develop y de develop a main, para mantener el proyecto limpio y ordenado y poder recuperar cambios si algo falla.
-
-- **Docker y Docker Compose:** Para gestionar la base de datos MySQL en local sin depender de herramientas como XAMPP. Docker permite tener el entorno de base de datos aislado, reproducible y fácil de configurar en cualquier máquina.
-
-- **Railway:** Plataforma de despliegue en la nube que permite desplegar tanto la API de Node.js como la base de datos MySQL de forma sencilla conectando directamente el repositorio de GitHub. Tiene capa gratuita suficiente para este proyecto.
 
 ### Backend
 - **Node.js + Express.js:** Node.js permite ejecutar JavaScript en el servidor, lo que unifica el lenguaje en todo el proyecto junto con Angular en el frontend. Express es un framework que facilita la creación de una API REST limpia y organizada por rutas y middlewares.
@@ -93,6 +108,6 @@ Me decanto por **A2 (Node.js + Express + MySQL + Angular)** porque es la opción
 
 ## 5- Planificación
 
-![Diagrama de Gantt](/doc/img/Diagrama%20de%20Gantt.jpeg)
+![Diagrama de Gantt](/doc/img/gantt.png)
 
 [**<-Anterior**](../README.md)

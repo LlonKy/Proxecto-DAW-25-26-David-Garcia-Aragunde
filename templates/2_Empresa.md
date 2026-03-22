@@ -1,19 +1,22 @@
 # 1- Empresa
 # Índice
 
-1. [Idea de negocio](#1-idea-de-negocio)
-2. [Justificación de la idea](#2-justificación-de-la-idea)
-3. [Segmento de clientes](#3-segmento-de-clientes)
-4. [Competencia](#4-competencia)
-5. [Propuesta de valor](#5-propuesta-de-valor)
-6. [Forma jurídica](#6-forma-jurídica)
-7. [Inversiones y costes](#7-inversiones-y-costes)
-   - 7.1 [Costes](#71-costes)
-   - 7.2 [Ingresos](#72-ingresos)
-8. [Viabilidad](#8-viabilidad)
-   - 8.1 [Viabilidad técnica](#81-viabilidad-técnica)
-   - 8.2 [Viabilidad económica](#82-viabilidad-económica)
-   - 8.3 [Conclusión](#83-conclusión)
+- [1- Empresa](#1--empresa)
+- [Índice](#índice)
+  - [1. Idea de negocio](#1-idea-de-negocio)
+  - [2. Justificación de la idea](#2-justificación-de-la-idea)
+    - [DAFO](#dafo)
+  - [3. Segmento de clientes](#3-segmento-de-clientes)
+  - [4. Competencia](#4-competencia)
+  - [5. Propuesta de valor](#5-propuesta-de-valor)
+  - [6. Forma jurídica](#6-forma-jurídica)
+  - [7. Inversiones y costes](#7-inversiones-y-costes)
+    - [7.1 Costes](#71-costes)
+    - [7.2 Ingresos](#72-ingresos)
+  - [8. Viabilidad](#8-viabilidad)
+    - [8.1 Viabilidad técnica](#81-viabilidad-técnica)
+    - [8.2 Viabilidad económica](#82-viabilidad-económica)
+    - [8.3 Conclusión](#83-conclusión)
 
 ## 1. Idea de negocio
 
@@ -88,21 +91,24 @@ Si Swaply se convirtiera en un negocio real, la forma jurídica más adecuada se
 
 ## 7. Inversiones y costes
 
-La inversión inicial es baja al tratarse de un proyecto digital sin necesidad de local ni infraestructura física. Los principales costes serían:
-
 | Concepto | Coste estimado |
 |---|---|
 | Dominio web (.com, 1 año) | ~12 €/año |
-| Hosting básico (Railway o similar) | ~10-20 €/mes |
-| Herramientas de diseño y desarrollo (open source) | 0 € |
-| **Total inversión inicial aproximada** | **~250 € primer año** |
+| Hosting VPS (Railway/Hostinger) | ~10 €/mes (~120 €/año) |
+| Herramientas de desarrollo (open source) | 0 € |
+| **Total costes operativos primer año** | **~132 €** |
 
 ### 7.1 Costes
 
-**Costes fijos:**
-- Dominio web: ~12 €/año
-- Hosting: ~10-20 €/mes según tráfico
-- Cuota de autónomo: 230 €/mes (tarifa reducida los primeros 24 meses)
+**Costes fijos mensuales:**
+
+| Concepto | Coste mensual |
+|---|---|
+| Salario del desarrollador (junior) | 1.500 €/mes |
+| Cuota de autónomo | 230 €/mes |
+| Hosting VPS | ~10 €/mes |
+| Dominio web | ~1 €/mes |
+| **Total costes fijos** | **~1.741 €/mes** |
 
 **Costes variables:**
 - Publicidad online para captación de usuarios según presupuesto disponible
@@ -112,11 +118,23 @@ La inversión inicial es baja al tratarse de un proyecto digital sin necesidad d
 
 Se contemplan tres vías de ingresos:
 
-**1. Freemium:** plan gratuito con funcionalidades básicas y plan premium (~4,99 €/mes) con perfil destacado, estadísticas avanzadas y mayor visibilidad. Con 1.000 usuarios activos y un 5% de conversión serían unos 250 €/mes.
+**1. Freemium (principal):**
+- Plan gratuito con funcionalidades básicas
+- Plan Premium: 4,99 €/mes con perfil destacado, estadísticas avanzadas 
+y mayor visibilidad
 
-**2. Publicidad no intrusiva:** banners o contenido patrocinado en la versión gratuita a partir de tener una base de usuarios suficiente.
+Previsión de conversión:
 
-**3. Partnerships con academias:** acuerdos con academias o plataformas educativas para aparecer como recurso recomendado dentro de Swaply.
+| Escenario | Usuarios activos | Conversión premium | Ingresos/mes |
+|---|---|---|---|
+| Conservador | 500 | 3% | ~75 € |
+| Realista | 2.000 | 5% | ~500 € |
+| Optimista | 5.000 | 8% | ~2.000 € |
+
+**2. Publicidad no intrusiva:**
+Banners o contenido patrocinado en la versión gratuita a partir de los 
+5.000 usuarios activos mensuales. Ingresos estimados: ~100-300 €/mes.
+
 
 ---
 
@@ -128,10 +146,29 @@ El proyecto es técnicamente viable. Todas las tecnologías usadas son gratuitas
 
 ### 8.2 Viabilidad económica
 
-La inversión inicial es baja y los costes fijos son asumibles. Con las tres vías de ingresos planteadas y un crecimiento progresivo de usuarios, el proyecto podría alcanzar el punto de equilibrio sin financiación externa.
+La viabilidad económica a corto plazo es el principal 
+reto del proyecto. Los costes fijos mensuales rondan los 1.741 €, mientras 
+que en un escenario conservador los ingresos iniciales no superarían los 
+200-300 €/mes. Esto significa que en la fase inicial el proyecto tendría
+pérdidas.
+
+Sin embargo, esto es habitual en plataformas de comunidad, que necesitan 
+una masa de usuarios antes de ser rentables. Para cubrir las 
+pérdidas iniciales se contemplan las siguientes opciones:
+- **Kit Digital:** programa de subvenciones del Gobierno de España para 
+digitalización de pequeños negocios
+- **Ayudas de la Xunta de Galicia** para emprendedores jóvenes
+- **Financiación propia** durante los primeros 6-12 meses mientras crece 
+la base de usuarios
 
 ### 8.3 Conclusión
 
-Swaply es viable tanto técnica como económicamente. La inversión inicial es baja, el mercado está desatendido y el modelo de negocio tiene margen real de crecimiento. Los beneficios potenciales superan los costes, y en caso de pérdidas iniciales existen opciones de financiación pública para cubrirlas.
+Swaply es técnicamente viable y tiene un modelo de negocio con potencial 
+real a medio plazo. A corto plazo no es económicamente autosuficiente, ya 
+que el servicio gratuito no genera ingresos directos hasta alcanzar una 
+base de usuarios suficiente. Sin embargo, la inversión inicial es baja, 
+existen opciones de financiación pública y el mercado está desatendido, 
+lo que justifica apostar por el proyecto asumiendo pérdidas controladas 
+durante los primeros meses.
 
 [**<-Anterior**](../../README.md)
