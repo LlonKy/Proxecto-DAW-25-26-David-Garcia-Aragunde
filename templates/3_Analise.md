@@ -129,4 +129,4 @@ moderación del contenido por parte del administrador.
 cercanos y facilitar intercambios presenciales, especialmente útil para
 habilidades que requieren contacto físico como clases de música o deportes.
 
-[**<-Anterior**](../../README.md)
+[**<-Anterior**](../README.md)

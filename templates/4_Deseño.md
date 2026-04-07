@@ -7,7 +7,7 @@
     - [Usuarios](#usuarios)
     - [Administrador](#administrador)
   - [3. Diagrama de Base de Datos](#3-diagrama-de-base-de-datos)
-    - [Modelo Entidade/Relación](#modelo-entidaderelación)
+    - [Modelo Entidad/Relación](#modelo-entidadrelación)
     - [Modelo Relacional](#modelo-relacional)
   - [4. Deseño de interface de usuarios](#4-deseño-de-interface-de-usuarios)
     - [Landing page](#landing-page)
@@ -29,7 +29,7 @@
 
 ## 3. Diagrama de Base de Datos
 
-### Modelo Entidade/Relación
+### Modelo Entidad/Relación
 
 ```mermaid
 flowchart LR
