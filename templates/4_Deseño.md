@@ -51,7 +51,7 @@ flowchart LR
     R9{"CLASIFICA"}
     R10{"ASOCIA_EXCHANGE"}
     R11{"ASOCIA_SKILL"}
-    USR ---|1:N| R1
+    USR ---|1:N| R1 
     R1 ---|1:1| EXC
     USR ---|1:N| R2
     R2 ---|1:1| EXC
