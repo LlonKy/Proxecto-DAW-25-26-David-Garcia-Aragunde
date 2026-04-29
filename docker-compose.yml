@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  swaply-db:
+    image: postgres:16
+    container_name: swaply-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: swaply
+      POSTGRES_USER: swaply_user
+      POSTGRES_PASSWORD: swaply1234
+    ports:
+      - "5435:5432"
+    volumes:
+      - swaply_data:/var/lib/postgresql/data
+volumes:
+  swaply_data:

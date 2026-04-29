@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  admin
+  user_free  @map("user-free")
+  user_premium @map("user-premium")
+}
+
+enum SkillType {
+  offering
+  seeking
+}
+
+enum ExchangeStatus {
+  pending
+  accepted
+  in_progress
+  completed
+  rejected
+}
+
+enum SkillExchangeRole {
+  offered
+  received
+}
+
+model Category {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(100)
+  description String? @db.VarChar(255)
+  skills      Skill[]
+
+  @@map("category")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  name           String   @db.VarChar(100)
+  email          String   @unique @db.VarChar(150)
+  password       String   @db.VarChar(255)
+  photo          String?  @db.VarChar(255)
+  description    String?
+  role           UserRole @default(user_free)
+  average_rating Float?   @default(0)
+  created_at     DateTime @default(now())
+
+  skills             Skill[]
+  exchanges_as_requester Exchange[] @relation("requester")
+  exchanges_as_receiver  Exchange[] @relation("receiver")
+  messages_sent      Message[]  @relation("sender")
+  messages_received  Message[]  @relation("receiver")
+  ratings_given      Rating[]   @relation("author")
+  ratings_received   Rating[]   @relation("recipient")
+
+  @@map("users")
+}
+
+model Skill {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(100)
+  description String?
+  type        SkillType
+  user_id     Int
+  category_id Int
+  created_at  DateTime  @default(now())
+
+  user            User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  category        Category        @relation(fields: [category_id], references: [id], onDelete: Restrict)
+  skill_exchanges SkillExchange[]
+
+  @@map("skill")
+}
+
+model Exchange {
+  id           Int            @id @default(autoincrement())
+  requester_id Int
+  receiver_id  Int
+  status       ExchangeStatus @default(pending)
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+
+  requester      User            @relation("requester", fields: [requester_id], references: [id], onDelete: Cascade)
+  receiver       User            @relation("receiver", fields: [receiver_id], references: [id], onDelete: Cascade)
+  skill_exchanges SkillExchange[]
+  messages       Message[]
+  ratings        Rating[]
+
+  @@map("exchange")
+}
+
+model SkillExchange {
+  id          Int               @id @default(autoincrement())
+  exchange_id Int
+  skill_id    Int
+  role        SkillExchangeRole
+
+  exchange Exchange @relation(fields: [exchange_id], references: [id], onDelete: Cascade)
+  skill    Skill    @relation(fields: [skill_id], references: [id], onDelete: Cascade)
+
+  @@map("skill_exchange")
+}
+
+model Message {
+  id          Int      @id @default(autoincrement())
+  sender_id   Int
+  receiver_id Int
+  exchange_id Int?
+  content     String
+  created_at  DateTime @default(now())
+
+  sender   User      @relation("sender", fields: [sender_id], references: [id], onDelete: Cascade)
+  receiver User      @relation("receiver", fields: [receiver_id], references: [id], onDelete: Cascade)
+  exchange Exchange? @relation(fields: [exchange_id], references: [id], onDelete: SetNull)
+
+  @@map("message")
+}
+
+model Rating {
+  id           Int      @id @default(autoincrement())
+  exchange_id  Int
+  author_id    Int
+  recipient_id Int
+  score        Int
+  comment      String?
+  created_at   DateTime @default(now())
+
+  exchange  Exchange @relation(fields: [exchange_id], references: [id], onDelete: Cascade)
+  author    User     @relation("author", fields: [author_id], references: [id], onDelete: Cascade)
+  recipient User     @relation("recipient", fields: [recipient_id], references: [id], onDelete: Cascade)
+
+  @@map("rating")
+}
