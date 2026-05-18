@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   swaply-db:
     image: postgres:16
@@ -12,5 +11,35 @@ services:
       - "5435:5432"
     volumes:
       - swaply_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U swaply_user -d swaply"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  swaply-backend:
+    build: ./backend
+    container_name: swaply-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://swaply_user:swaply1234@swaply-db:5432/swaply
+      JWT_SECRET: swaply_secret_key_2024
+      JWT_EXPIRES_IN: 7d
+      PORT: 3001
+    ports:
+      - "3001:3001"
+    depends_on:
+      swaply-db:
+        condition: service_healthy
+
+  swaply-frontend:
+    build: ./frontend
+    container_name: swaply-frontend
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    depends_on:
+      - swaply-backend
+
 volumes:
   swaply_data:
