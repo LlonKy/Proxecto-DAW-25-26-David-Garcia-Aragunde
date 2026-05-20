@@ -1,0 +1,423 @@
+@use 'sass:color';
+
+$green: #1DB954;
+$green-dark: #17a349;
+$black: #111;
+$gray: #6b7280;
+$gray-light: #f4f4f5;
+$border: #e4e4e7;
+$white: #ffffff;
+
+.landing {
+  font-family: 'DM Sans', sans-serif;
+}
+
+// === HERO ===
+.hero {
+  background: $black;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: $white;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.hero-title-accent {
+  color: $green;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: rgba($white, 0.65);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 440px;
+
+  @media (max-width: 768px) { margin: 0 auto; }
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) { justify-content: center; }
+}
+
+// Burbujas flotantes
+.hero-bubbles {
+  position: relative;
+  height: 420px;
+
+  @media (max-width: 768px) { display: none; }
+}
+
+.bubble {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  animation: float 6s ease-in-out infinite;
+
+  &--1 { background: #3b82f6;  top: 10%;  left: 10%;  animation-delay: 0s;    width: 80px; height: 80px; }
+  &--2 { background: #8b5cf6;  top: 5%;   left: 55%;  animation-delay: 0.8s;  width: 90px; height: 90px; }
+  &--3 { background: $green;   top: 35%;  left: 35%;  animation-delay: 1.2s;  width: 85px; height: 85px; }
+  &--4 { background: #ec4899;  top: 60%;  left: 65%;  animation-delay: 0.4s;  width: 72px; height: 72px; }
+  &--5 { background: #06b6d4;  top: 70%;  left: 5%;   animation-delay: 1.6s;  width: 88px; height: 88px; }
+  &--6 { background: #f59e0b;  top: 80%;  left: 40%;  animation-delay: 2s;    width: 76px; height: 76px; }
+  &--7 { background: #ef4444;  top: 50%;  left: 78%;  animation-delay: 0.6s;  width: 80px; height: 80px; }
+  &--8 { background: #ec4899;  top: 92%;  left: 18%;  animation-delay: 1.4s;  width: 68px; height: 68px; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-14px); }
+}
+
+// === BOTONES ===
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 2rem;
+  background: $green;
+  color: $white;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+
+  &:hover { background: $green-dark; transform: translateY(-2px); }
+
+  &--large {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+  }
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 2rem;
+  background: transparent;
+  color: $white;
+  border: 1.5px solid rgba($white, 0.3);
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+
+  &:hover { border-color: $white; background: rgba($white, 0.07); }
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: $black;
+  border: 1.5px solid $border;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+
+  &:hover { border-color: $black; background: $gray-light; }
+}
+
+.btn-swap {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  background: $green;
+  color: $white;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
+
+  &:hover { background: $green-dark; }
+}
+
+// === SECCIONES GENÉRICAS ===
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 800;
+  color: $black;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: $gray;
+  font-size: 1rem;
+  margin: 0 0 3rem;
+}
+
+// === CÓMO FUNCIONA ===
+.how {
+  background: $white;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: steps;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+}
+
+.step {
+  background: $gray-light;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+
+  .step-num {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba($black, 0.06);
+    line-height: 1;
+  }
+
+  .step-icon {
+    font-size: 2rem;
+    width: 52px;
+    height: 52px;
+    background: $white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $black;
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: $gray;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// === SKILLS DESTACADAS ===
+.featured {
+  background: $gray-light;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @media (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 560px) { grid-template-columns: 1fr; }
+}
+
+.skill-card {
+  background: $white;
+  border-radius: 14px;
+  border: 1px solid $border;
+  border-left: 4px solid $green;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: box-shadow 0.2s, transform 0.2s;
+
+  &:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+}
+
+.skill-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+}
+
+.category-icon-bg {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.skill-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $black;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.skill-desc {
+  font-size: 0.85rem;
+  color: $gray;
+  line-height: 1.55;
+  margin: 0;
+  flex: 1;
+}
+
+.skill-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+  gap: 0.5rem;
+}
+
+.skill-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: $white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: $black;
+}
+
+.featured-cta {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+// === CTA FINAL ===
+.cta-section {
+  background: $black;
+}
+
+.cta-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+
+  h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: $white;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+
+  p {
+    color: rgba($white, 0.6);
+    font-size: 1rem;
+    margin: 0;
+  }
+}

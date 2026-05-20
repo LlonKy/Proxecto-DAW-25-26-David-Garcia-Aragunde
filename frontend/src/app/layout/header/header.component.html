@@ -1,0 +1,90 @@
+<header class="site-header" role="banner">
+  <div class="header-inner">
+
+    <a routerLink="/" class="header-logo" aria-label="Swaply - Ir al inicio">
+      <span class="logo-icon" aria-hidden="true">⇄</span>
+      <span class="logo-text">swaply</span>
+    </a>
+
+    @if (isLoggedIn()) {
+      <div class="header-search">
+        <form role="search" (ngSubmit)="onSearch()" aria-label="Buscar habilidades">
+          <label for="search-skills" class="visually-hidden">Buscar habilidades</label>
+          <div class="search-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              id="search-skills"
+              type="search"
+              [ngModel]="searchQuery()"
+              (ngModelChange)="searchQuery.set($event)"
+              name="search"
+              placeholder="Buscar habilidades..."
+              autocomplete="off"
+            />
+          </div>
+        </form>
+      </div>
+    }
+
+    @if (!isLoggedIn()) {
+      <nav class="header-nav" aria-label="Navegación principal">
+        <ul role="list">
+          <li><a routerLink="/skills" routerLinkActive="active">Explorar</a></li>
+          <li><a routerLink="/login" class="btn-outline">Entrar</a></li>
+          <li><a routerLink="/register" class="btn-primary">Registrarse</a></li>
+        </ul>
+      </nav>
+    }
+
+    @if (isLoggedIn()) {
+      <nav class="header-nav" aria-label="Navegación principal">
+        <ul role="list">
+          <li><a routerLink="/skills" routerLinkActive="active">Explorar</a></li>
+          <li><a routerLink="/exchanges" routerLinkActive="active">Mis intercambios</a></li>
+          <li><a routerLink="/messages" routerLinkActive="active">Mensajes</a></li>
+
+          <li>
+            <button class="icon-btn" aria-label="Notificaciones">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+            </button>
+          </li>
+
+          <li class="avatar-menu">
+            <button
+              class="avatar-btn"
+              (click)="toggleMenu()"
+              [attr.aria-expanded]="menuOpen()"
+              aria-haspopup="true"
+              aria-label="Menú de usuario"
+            >
+              <span class="avatar" aria-hidden="true">{{ initials() }}</span>
+            </button>
+
+            @if (menuOpen()) {
+              <ul class="dropdown" role="menu" (mouseleave)="closeMenu()">
+                <li role="none">
+                  <a routerLink="/profile/me" role="menuitem" (click)="closeMenu()">Mi perfil</a>
+                </li>
+                <li role="none">
+                  <a routerLink="/skills/new" role="menuitem" (click)="closeMenu()">Publicar skill</a>
+                </li>
+                <li role="separator" class="menu-divider"></li>
+                <li role="none">
+                  <button class="menu-logout" role="menuitem" (click)="logout()">Cerrar sesión</button>
+                </li>
+              </ul>
+            }
+          </li>
+
+        </ul>
+      </nav>
+    }
+
+  </div>
+</header>
