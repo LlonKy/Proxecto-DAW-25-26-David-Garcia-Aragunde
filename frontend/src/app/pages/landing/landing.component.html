@@ -1,0 +1,120 @@
+<div class="landing">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <h1 id="hero-title" class="hero-title">
+          Intercambia lo que sabes.<br>
+          <span class="hero-title-accent">Aprende lo que quieres.</span>
+        </h1>
+        <p class="hero-subtitle">
+          Conecta con personas, intercambia habilidades y crece sin gastar un euro.
+        </p>
+        <div class="hero-actions">
+          <a routerLink="/register" class="btn-primary">Empieza gratis</a>
+          <a href="#how" class="btn-outline">¿Cómo funciona?</a>
+        </div>
+      </div>
+
+      <div class="hero-bubbles" aria-hidden="true">
+        <div class="bubble bubble--1">💻</div>
+        <div class="bubble bubble--2">🎵</div>
+        <div class="bubble bubble--3">📚</div>
+        <div class="bubble bubble--4">🎨</div>
+        <div class="bubble bubble--5">💬</div>
+        <div class="bubble bubble--6">🍳</div>
+        <div class="bubble bubble--7">⚡</div>
+        <div class="bubble bubble--8">📷</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="how" id="how" aria-labelledby="how-title">
+    <div class="section-inner">
+      <h2 id="how-title" class="section-title">¿Cómo funciona?</h2>
+      <p class="section-subtitle">En tres pasos, sin complicaciones</p>
+
+      <ol class="steps" role="list">
+        <li class="step">
+          <div class="step-num" aria-hidden="true">1</div>
+          <div class="step-icon" aria-hidden="true">📝</div>
+          <h3>Publica tu habilidad</h3>
+          <p>Cuéntanos qué sabes hacer: idiomas, código, cocina, música... lo que sea.</p>
+        </li>
+        <li class="step">
+          <div class="step-num" aria-hidden="true">2</div>
+          <div class="step-icon" aria-hidden="true">🔍</div>
+          <h3>Encuentra lo que buscas</h3>
+          <p>Explora habilidades de otras personas y solicita un intercambio.</p>
+        </li>
+        <li class="step">
+          <div class="step-num" aria-hidden="true">3</div>
+          <div class="step-icon" aria-hidden="true">⇄</div>
+          <h3>Intercambia y aprende</h3>
+          <p>Poneos de acuerdo y empezad a aprender el uno del otro. Gratis.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- SKILLS DESTACADAS -->
+  <section class="featured" aria-labelledby="featured-title">
+    <div class="section-inner">
+      <h2 id="featured-title" class="section-title">Habilidades disponibles</h2>
+      <p class="section-subtitle">Una muestra de lo que puedes encontrar</p>
+
+      <ul class="skills-grid" role="list">
+        @for (skill of featuredSkills; track skill.title) {
+          <li class="skill-card" [style.border-left-color]="skill.categoryColor">
+
+            <div class="skill-card-top">
+              <span class="category-badge"
+                [style.background]="skill.categoryColor + '18'"
+                [style.color]="skill.categoryColor">
+                {{ skill.categoryIcon }} {{ skill.category }}
+              </span>
+              <span class="category-icon-bg"
+                [style.background]="skill.categoryColor + '18'"
+                [style.color]="skill.categoryColor"
+                aria-hidden="true">
+                {{ skill.categoryIcon }}
+              </span>
+            </div>
+
+            <h3 class="skill-title">{{ skill.title }}</h3>
+            <p class="skill-desc">{{ skill.description }}</p>
+
+            <div class="skill-footer">
+              <div class="skill-user">
+                <span class="user-avatar"
+                  [style.background]="skill.categoryColor"
+                  aria-hidden="true">
+                  {{ getInitials(skill.user) }}
+                </span>
+                <span class="user-name">{{ skill.user }}</span>
+              </div>
+              <a routerLink="/register" class="btn-swap">Solicitar ⇄</a>
+            </div>
+
+          </li>
+        }
+      </ul>
+
+      <div class="featured-cta">
+        <a routerLink="/skills" class="btn-ghost">Ver todas las habilidades</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION FINAL -->
+  <section class="cta-section" aria-labelledby="cta-title">
+    <div class="cta-inner">
+      <h2 id="cta-title">¿Listo para empezar?</h2>
+      <p>Únete gratis y empieza a intercambiar hoy mismo.</p>
+      <a routerLink="/register" class="btn-primary btn-primary--large">Crear cuenta gratis</a>
+    </div>
+  </section>
+
+</div>

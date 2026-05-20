@@ -1,0 +1,114 @@
+<div class="auth-wrapper">
+
+  <aside class="auth-brand" aria-hidden="true">
+    <div class="brand-logo">
+      <span class="logo-icon">⇄</span>
+      <span class="logo-text">swaply</span>
+    </div>
+    <p class="brand-tagline">Intercambia lo que sabes.<br>Aprende lo que quieres.</p>
+    <ul class="brand-decoration" aria-hidden="true">
+      <li class="deco-pill">Diseño</li>
+      <li class="deco-pill">Código</li>
+      <li class="deco-pill">Idiomas</li>
+      <li class="deco-pill">Música</li>
+      <li class="deco-pill">Marketing</li>
+    </ul>
+  </aside>
+
+  <!-- Panel derecho: formulario real -->
+  <div class="auth-card">
+
+    <header class="card-header">
+      <h1>Bienvenido de vuelta</h1>
+      <p>Inicia sesión para seguir intercambiando</p>
+    </header>
+
+    <main>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate aria-label="Formulario de inicio de sesión">
+
+        <div class="field" [class.field--error]="email.invalid && email.touched">
+          <label for="email">Email</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="tu@email.com"
+              autocomplete="email"
+              aria-required="true"
+              [attr.aria-invalid]="email.invalid && email.touched"
+              aria-describedby="email-error"
+            />
+          </div>
+          <span id="email-error" class="field-error" role="alert" *ngIf="email.invalid && email.touched">
+            {{ email.errors?.['required'] ? 'El email es obligatorio' : 'Email no válido' }}
+          </span>
+        </div>
+
+        <div class="field" [class.field--error]="password.invalid && password.touched">
+          <label for="password">Contraseña</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              aria-required="true"
+              [attr.aria-invalid]="password.invalid && password.touched"
+              aria-describedby="password-error"
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="showPassword = !showPassword"
+              [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            >
+              <svg *ngIf="!showPassword" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg *ngIf="showPassword" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+          <span id="password-error" class="field-error" role="alert" *ngIf="password.invalid && password.touched">
+            {{ password.errors?.['required'] ? 'La contraseña es obligatoria' : 'Mínimo 6 caracteres' }}
+          </span>
+        </div>
+
+        <div class="alert alert--error" role="alert" *ngIf="error">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          {{ error }}
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="loading" [attr.aria-busy]="loading">
+          <span *ngIf="!loading">Entrar</span>
+          <span *ngIf="loading" class="spinner" role="status" aria-label="Cargando..."></span>
+        </button>
+
+      </form>
+    </main>
+
+    <footer class="card-footer">
+      <p class="auth-switch">
+        ¿No tienes cuenta? <a routerLink="/register">Regístrate gratis</a>
+      </p>
+    </footer>
+
+  </div>
+</div>
