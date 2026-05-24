@@ -1,0 +1,253 @@
+<div class="skills-page">
+  <div class="skills-layout">
+
+    <!-- SIDEBAR FILTROS -->
+    <aside class="filters-sidebar" aria-label="Filtros de búsqueda">
+
+      <div class="filters-header">
+        <h2>Filtros</h2>
+        @if (hasActiveFilters()) {
+          <button class="clear-btn" (click)="clearFilters()">Limpiar</button>
+        }
+      </div>
+
+      <div class="filter-group">
+        <label for="search" class="filter-label">Buscar</label>
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input
+            id="search"
+            type="search"
+            [ngModel]="searchQuery()"
+            (ngModelChange)="searchQuery.set($event)"
+            placeholder="Buscar habilidad..."
+            autocomplete="off"
+          />
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label" id="type-label">Tipo</span>
+        <ul class="filter-list" role="list" aria-labelledby="type-label">
+          <li>
+            <button class="filter-item" [class.active]="activeType() === 'all'"
+              (click)="setType('all')" [attr.aria-pressed]="activeType() === 'all'">
+              <span class="filter-dot filter-dot--all" aria-hidden="true"></span>
+              Todas
+            </button>
+          </li>
+          <li>
+            <button class="filter-item" [class.active]="activeType() === 'offering'"
+              (click)="setType('offering')" [attr.aria-pressed]="activeType() === 'offering'">
+              <span class="filter-dot filter-dot--offering" aria-hidden="true"></span>
+              Ofrecen
+            </button>
+          </li>
+          <li>
+            <button class="filter-item" [class.active]="activeType() === 'seeking'"
+              (click)="setType('seeking')" [attr.aria-pressed]="activeType() === 'seeking'">
+              <span class="filter-dot filter-dot--seeking" aria-hidden="true"></span>
+              Buscan
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label" id="cat-label">Categoría</span>
+        <ul class="filter-list" role="list" aria-labelledby="cat-label">
+          <li>
+            <button class="filter-item" [class.active]="activeCategory() === null"
+              (click)="setCategory(null)" [attr.aria-pressed]="activeCategory() === null">
+              <span class="filter-dot" style="background:#e4e4e7" aria-hidden="true"></span>
+              Todas
+            </button>
+          </li>
+          @for (cat of categories(); track cat.id) {
+            <li>
+              <button class="filter-item" [class.active]="activeCategory() === cat.id"
+                (click)="setCategory(cat.id)" [attr.aria-pressed]="activeCategory() === cat.id">
+                <span class="filter-dot" [style.background]="cat.color" aria-hidden="true"></span>
+                {{ cat.name }}
+              </button>
+            </li>
+          }
+        </ul>
+      </div>
+
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="skills-main" aria-label="Listado de habilidades">
+
+      <header class="skills-main-header">
+        <h1 class="skills-main-title">
+          @if (hasActiveFilters()) {
+            {{ filtered().length }} resultado{{ filtered().length !== 1 ? 's' : '' }}
+          } @else {
+            Explorar habilidades
+          }
+        </h1>
+      </header>
+
+      @if (loading()) {
+        <div class="state-loading" role="status" aria-label="Cargando habilidades">
+          <div class="spinner" aria-hidden="true"></div>
+        </div>
+      }
+
+      @if (error() && !loading()) {
+        <div class="state-error" role="alert">
+          <p>{{ error() }}</p>
+          <button class="btn-retry" (click)="loadSkills()">Reintentar</button>
+        </div>
+      }
+
+      @if (!loading() && !error() && filtered().length === 0) {
+        <div class="state-empty">
+          <p class="state-empty-title">No hay resultados</p>
+          <p class="state-empty-sub">Prueba a cambiar los filtros o el texto de búsqueda.</p>
+          <button class="btn-ghost" (click)="clearFilters()">Limpiar filtros</button>
+        </div>
+      }
+
+      @if (!loading() && filtered().length > 0) {
+        <ul class="skills-grid" role="list">
+          @for (skill of filtered(); track skill.id) {
+            <li class="skill-card" [style.border-left-color]="skill.category?.color || '#1DB954'">
+
+              <div class="skill-card-top">
+                <span class="category-badge"
+                  [style.background]="(skill.category?.color || '#1DB954') + '18'"
+                  [style.color]="skill.category?.color || '#1DB954'">
+                  {{ skill.category?.name || 'General' }}
+                </span>
+                <span class="type-badge" [class.type-badge--seeking]="skill.type === 'seeking'">
+                  {{ skill.type === 'offering' ? 'Ofrece' : 'Busca' }}
+                </span>
+              </div>
+
+              <h3 class="skill-title">{{ skill.name }}</h3>
+              <p class="skill-desc">{{ skill.description }}</p>
+
+              <div class="skill-footer">
+                @if (skill.user) {
+                  <a [routerLink]="['/profile', skill.user.id]" class="skill-user"
+                    [attr.aria-label]="'Ver perfil de ' + skill.user.name">
+                    <span class="user-avatar"
+                      [style.background]="skill.category?.color || '#1DB954'"
+                      aria-hidden="true">
+                      {{ getInitials(skill.user.name) }}
+                    </span>
+                    <span class="user-name">{{ skill.user.name }}</span>
+                  </a>
+                }
+                <button class="btn-swap" (click)="openSkill(skill)">Ver ⇄</button>
+              </div>
+
+            </li>
+          }
+        </ul>
+      }
+
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  @if (selectedSkill()) {
+    <div
+      class="modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="selectedSkill()!.name"
+      (click)="closeSkill()"
+      (keydown.escape)="closeSkill()"
+      tabindex="-1"
+    >
+      <div class="modal" (click)="$event.stopPropagation()">
+
+        <button class="modal-close" (click)="closeSkill()" aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+
+        <div class="modal-header" [style.border-left-color]="selectedSkill()!.category?.color || '#1DB954'">
+          <div class="modal-badges">
+            <span class="category-badge"
+              [style.background]="(selectedSkill()!.category?.color || '#1DB954') + '18'"
+              [style.color]="selectedSkill()!.category?.color || '#1DB954'">
+              {{ selectedSkill()!.category?.name || 'General' }}
+            </span>
+            <span class="type-badge" [class.type-badge--seeking]="selectedSkill()!.type === 'seeking'">
+              {{ selectedSkill()!.type === 'offering' ? 'Ofrece' : 'Busca' }}
+            </span>
+          </div>
+          <h2 class="modal-title">{{ selectedSkill()!.name }}</h2>
+        </div>
+
+        <div class="modal-body">
+          <p class="modal-desc">{{ selectedSkill()!.description }}</p>
+
+          @if (selectedSkill()!.user) {
+            <div class="modal-user-wrapper">
+              <a
+                [routerLink]="['/profile', selectedSkill()!.user!.id]"
+                class="modal-user"
+                (click)="closeSkill()"
+                [attr.aria-label]="'Ver perfil de ' + selectedSkill()!.user!.name"
+              >
+                <span class="user-avatar"
+                  [style.background]="selectedSkill()!.category?.color || '#1DB954'"
+                  aria-hidden="true">
+                  {{ getInitials(selectedSkill()!.user!.name) }}
+                </span>
+                <div class="modal-user-info">
+                  <span class="modal-user-name">{{ selectedSkill()!.user!.name }}</span>
+                  <span class="modal-user-label">Ver perfil completo →</span>
+                </div>
+              </a>
+            </div>
+          }
+
+          @if (exchangeSuccess()) {
+            <div class="alert alert--success" role="status">
+              ✓ ¡Solicitud de intercambio enviada!
+            </div>
+          }
+
+          @if (exchangeError()) {
+            <div class="alert alert--error" role="alert">
+              {{ exchangeError() }}
+            </div>
+          }
+        </div>
+
+        <div class="modal-footer">
+          @if (!isOwnSkill() && !exchangeSuccess()) {
+            <a
+              [routerLink]="['/profile', selectedSkill()!.user!.id]"
+              class="btn-primary"
+              (click)="closeSkill()"
+            >
+              ⇄ Proponer intercambio
+            </a>
+          }
+          @if (isOwnSkill()) {
+            <a [routerLink]="['/skills/edit', selectedSkill()!.id]"
+              class="btn-primary" (click)="closeSkill()">
+              Editar habilidad
+            </a>
+          }
+          <button class="btn-ghost" (click)="closeSkill()">Cerrar</button>
+        </div>
+
+      </div>
+    </div>
+  }
+
+</div>

@@ -1,0 +1,226 @@
+<div class="exchanges-page">
+  <div class="exchanges-wrapper">
+
+    <header class="exchanges-header">
+      <h1>Mis intercambios</h1>
+      <a routerLink="/skills" class="btn-ghost">Explorar habilidades</a>
+    </header>
+
+    @if (loading()) {
+      <div class="state-loading" role="status" aria-label="Cargando intercambios">
+        <div class="spinner" aria-hidden="true"></div>
+      </div>
+    }
+
+    @if (error() && !loading()) {
+      <div class="state-error" role="alert">
+        <p>{{ error() }}</p>
+        <button class="btn-retry" (click)="loadExchanges()">Reintentar</button>
+      </div>
+    }
+
+    @if (!loading() && !error()) {
+
+      @if (exchanges().length === 0) {
+        <div class="state-empty">
+          <p class="state-empty-icon">⇄</p>
+          <p class="state-empty-title">Sin intercambios todavía</p>
+          <p class="state-empty-sub">Explora habilidades y propón tu primer intercambio.</p>
+          <a routerLink="/skills" class="btn-primary">Explorar habilidades</a>
+        </div>
+      }
+
+      <!-- PENDIENTES -->
+      @if (pending().length > 0) {
+        <section aria-labelledby="pending-title">
+          <h2 id="pending-title" class="section-title">
+            <span class="status-dot status-dot--pending" aria-hidden="true"></span>
+            Pendientes
+            <span class="count-badge">{{ pending().length }}</span>
+          </h2>
+          <ul class="exchanges-list" role="list">
+            @for (exchange of pending(); track exchange.id) {
+              <li class="exchange-card">
+                <div class="exchange-card-main">
+
+                  <a [routerLink]="['/profile', getOtherUser(exchange).id]" class="exchange-user">
+                    <span class="user-avatar" aria-hidden="true">
+                      {{ getInitials(getOtherUser(exchange).name) }}
+                    </span>
+                    <div class="exchange-user-info">
+                      <span class="exchange-user-name">{{ getOtherUser(exchange).name }}</span>
+                      <span class="exchange-user-role">
+                        {{ exchange.requester_id === currentUser?.id ? 'Solicitud enviada' : 'Solicitud recibida' }}
+                      </span>
+                    </div>
+                  </a>
+
+                  <div class="exchange-skills">
+                    <div class="exchange-skill">
+                      <span class="skill-role">Ofrece</span>
+                      <span class="skill-name">{{ getOfferedSkill(exchange) }}</span>
+                    </div>
+                    <span class="exchange-arrow" aria-hidden="true">⇄</span>
+                    <div class="exchange-skill">
+                      <span class="skill-role">Busca</span>
+                      <span class="skill-name">{{ getRequestedSkill(exchange) }}</span>
+                    </div>
+                  </div>
+
+                  <span class="status-badge status-badge--pending">Pendiente</span>
+
+                </div>
+
+                @if (isReceiver(exchange)) {
+                  <div class="exchange-actions">
+                    <button
+                      class="btn-accept"
+                      (click)="updateStatus(exchange, 'accepted')"
+                      [disabled]="updating() === exchange.id"
+                      aria-label="Aceptar intercambio"
+                    >
+                      @if (updating() === exchange.id) {
+                        <span class="spinner-sm" aria-hidden="true"></span>
+                      } @else {
+                        ✓ Aceptar
+                      }
+                    </button>
+                    <button
+                      class="btn-reject"
+                      (click)="updateStatus(exchange, 'rejected')"
+                      [disabled]="updating() === exchange.id"
+                      aria-label="Rechazar intercambio"
+                    >
+                      ✕ Rechazar
+                    </button>
+                  </div>
+                } @else {
+                  <div class="exchange-actions">
+                    <button
+                      class="btn-cancel"
+                      (click)="updateStatus(exchange, 'rejected')"
+                      [disabled]="updating() === exchange.id"
+                      aria-label="Cancelar solicitud"
+                    >
+                      Cancelar solicitud
+                    </button>
+                  </div>
+                }
+
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      <!-- ACTIVOS -->
+      @if (active().length > 0) {
+        <section aria-labelledby="active-title">
+          <h2 id="active-title" class="section-title">
+            <span class="status-dot status-dot--active" aria-hidden="true"></span>
+            En curso
+            <span class="count-badge">{{ active().length }}</span>
+          </h2>
+          <ul class="exchanges-list" role="list">
+            @for (exchange of active(); track exchange.id) {
+              <li class="exchange-card">
+                <div class="exchange-card-main">
+
+                  <a [routerLink]="['/profile', getOtherUser(exchange).id]" class="exchange-user">
+                    <span class="user-avatar" aria-hidden="true">
+                      {{ getInitials(getOtherUser(exchange).name) }}
+                    </span>
+                    <div class="exchange-user-info">
+                      <span class="exchange-user-name">{{ getOtherUser(exchange).name }}</span>
+                      <span class="exchange-user-role">Intercambio activo</span>
+                    </div>
+                  </a>
+
+                  <div class="exchange-skills">
+                    <div class="exchange-skill">
+                      <span class="skill-role">Ofrece</span>
+                      <span class="skill-name">{{ getOfferedSkill(exchange) }}</span>
+                    </div>
+                    <span class="exchange-arrow" aria-hidden="true">⇄</span>
+                    <div class="exchange-skill">
+                      <span class="skill-role">Busca</span>
+                      <span class="skill-name">{{ getRequestedSkill(exchange) }}</span>
+                    </div>
+                  </div>
+
+                  <span class="status-badge status-badge--active">
+                    {{ getStatusLabel(exchange.status) }}
+                  </span>
+
+                </div>
+
+                <div class="exchange-actions">
+                  <button
+                    class="btn-accept"
+                    (click)="updateStatus(exchange, 'completed')"
+                    [disabled]="updating() === exchange.id"
+                  >
+                    ✓ Marcar completado
+                  </button>
+                  <a [routerLink]="['/messages', getOtherUser(exchange).id]" class="btn-ghost-sm">
+                    💬 Mensaje
+                  </a>
+                </div>
+
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      <!-- COMPLETADOS / RECHAZADOS -->
+      @if (completed().length > 0) {
+        <section aria-labelledby="completed-title">
+          <h2 id="completed-title" class="section-title">
+            <span class="status-dot status-dot--completed" aria-hidden="true"></span>
+            Historial
+          </h2>
+          <ul class="exchanges-list" role="list">
+            @for (exchange of completed(); track exchange.id) {
+              <li class="exchange-card exchange-card--muted">
+                <div class="exchange-card-main">
+
+                  <a [routerLink]="['/profile', getOtherUser(exchange).id]" class="exchange-user">
+                    <span class="user-avatar user-avatar--muted" aria-hidden="true">
+                      {{ getInitials(getOtherUser(exchange).name) }}
+                    </span>
+                    <div class="exchange-user-info">
+                      <span class="exchange-user-name">{{ getOtherUser(exchange).name }}</span>
+                      <span class="exchange-user-role">{{ exchange.created_at | date:'dd/MM/yyyy' }}</span>
+                    </div>
+                  </a>
+
+                  <div class="exchange-skills">
+                    <div class="exchange-skill">
+                      <span class="skill-role">Ofreció</span>
+                      <span class="skill-name">{{ getOfferedSkill(exchange) }}</span>
+                    </div>
+                    <span class="exchange-arrow" aria-hidden="true">⇄</span>
+                    <div class="exchange-skill">
+                      <span class="skill-role">Buscó</span>
+                      <span class="skill-name">{{ getRequestedSkill(exchange) }}</span>
+                    </div>
+                  </div>
+
+                  <span class="status-badge"
+                    [class.status-badge--completed]="exchange.status === 'completed'"
+                    [class.status-badge--rejected]="exchange.status === 'rejected'">
+                    {{ getStatusLabel(exchange.status) }}
+                  </span>
+
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+    }
+
+  </div>
+</div>

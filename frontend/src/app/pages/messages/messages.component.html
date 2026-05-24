@@ -1,0 +1,62 @@
+<div class="messages-page">
+
+  <header class="messages-header">
+    <button class="back-btn" (click)="goBack()" aria-label="Volver al perfil">← Volver</button>
+    <h1>{{ otherUserName() || 'Mensajes' }}</h1>
+    <div class="spacer" aria-hidden="true"></div>
+  </header>
+
+  @if (loading()) {
+    <div class="state-loading" role="status" aria-label="Cargando mensajes">
+      <div class="spinner" aria-hidden="true"></div>
+    </div>
+  }
+
+  @if (error() && !loading()) {
+    <div class="state-error" role="alert">
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (!loading()) {
+    <main class="messages-container">
+
+      <div class="messages-list" #messagesList>
+        @if (messages().length === 0) {
+          <div class="empty-state">
+            <p>Sin mensajes aún. ¡Empieza la conversación!</p>
+          </div>
+        }
+
+        @for (msg of messages(); track msg.id) {
+          <div class="message" [class.message--own]="msg.sender_id === currentUser?.id">
+            <div class="message-content">{{ msg.content }}</div>
+            <span class="message-time">{{ msg.created_at | date:'HH:mm' }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="message-compose">
+        <textarea
+          [ngModel]="newMessageText()"
+          (ngModelChange)="newMessageText.set($event)"
+          placeholder="Escribe un mensaje..."
+          class="message-input"
+          aria-label="Escribe un mensaje"
+          (keydown.enter)="$event.preventDefault(); sendMessage()"
+        ></textarea>
+        <button
+          class="btn-send"
+          (click)="sendMessage()"
+          [disabled]="!newMessageText().trim() || sending()"
+          aria-label="Enviar mensaje"
+        >
+          @if (!sending()) { Enviar }
+          @if (sending()) { <span class="btn-spinner" aria-hidden="true"></span> }
+        </button>
+      </div>
+
+    </main>
+  }
+
+</div>

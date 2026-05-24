@@ -1,0 +1,140 @@
+<div class="form-page">
+  <div class="form-wrapper">
+
+    <header class="form-header">
+      <a routerLink="/skills" class="back-link" aria-label="Volver al listado">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+        Volver
+      </a>
+      <h1>{{ pageTitle() }}</h1>
+      <p>{{ isEditMode() ? 'Modifica los datos de tu habilidad' : 'Cuéntanos qué sabes hacer' }}</p>
+    </header>
+
+    @if (loadingData()) {
+      <div class="state-loading" role="status" aria-label="Cargando">
+        <div class="spinner" aria-hidden="true"></div>
+      </div>
+    }
+
+    @if (!loadingData()) {
+      <main>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate [attr.aria-label]="pageTitle()">
+
+          <div class="field" [class.field--error]="name.invalid && name.touched">
+            <label for="name">Nombre <span class="required" aria-hidden="true">*</span></label>
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              placeholder="Ej: Clases de guitarra acústica"
+              aria-required="true"
+              [attr.aria-invalid]="name.invalid && name.touched"
+              aria-describedby="name-error"
+            />
+            @if (name.invalid && name.touched) {
+              <span id="name-error" class="field-error" role="alert">
+                {{ name.errors?.['required'] ? 'El nombre es obligatorio' : 'Entre 3 y 80 caracteres' }}
+              </span>
+            }
+          </div>
+
+          <div class="field" [class.field--error]="description.invalid && description.touched">
+            <div class="field-label-row">
+              <label for="description">Descripción <span class="required" aria-hidden="true">*</span></label>
+              <span class="char-count" [class.char-count--limit]="descLength() > 450">
+                {{ descLength() }}/500
+              </span>
+            </div>
+            <textarea
+              id="description"
+              formControlName="description"
+              rows="4"
+              placeholder="Describe tu habilidad, tu nivel, cómo puedes ayudar..."
+              aria-required="true"
+              [attr.aria-invalid]="description.invalid && description.touched"
+              aria-describedby="description-error"
+            ></textarea>
+            @if (description.invalid && description.touched) {
+              <span id="description-error" class="field-error" role="alert">
+                {{ description.errors?.['required'] ? 'La descripción es obligatoria' : 'Entre 10 y 500 caracteres' }}
+              </span>
+            }
+          </div>
+
+          <div class="field">
+            <span class="label" id="type-label">Tipo <span class="required" aria-hidden="true">*</span></span>
+            <div class="type-selector" role="group" aria-labelledby="type-label">
+              <label class="type-option" [class.active]="type.value === 'offering'">
+                <input type="radio" formControlName="type" value="offering" />
+                <span class="type-icon" aria-hidden="true">💡</span>
+                <span class="type-text">
+                  <strong>Ofrezco</strong>
+                  <small>Tengo esta habilidad y quiero enseñarla</small>
+                </span>
+              </label>
+              <label class="type-option" [class.active]="type.value === 'seeking'">
+                <input type="radio" formControlName="type" value="seeking" />
+                <span class="type-icon" aria-hidden="true">🔍</span>
+                <span class="type-text">
+                  <strong>Busco</strong>
+                  <small>Quiero aprender esta habilidad</small>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field" [class.field--error]="category_id.invalid && category_id.touched">
+            <label for="category" class="label">Categoría <span class="required" aria-hidden="true">*</span></label>
+            <div class="select-wrapper">
+              <select
+                id="category"
+                formControlName="category_id"
+                aria-required="true"
+                [attr.aria-invalid]="category_id.invalid && category_id.touched"
+                aria-describedby="category-error"
+              >
+                <option [ngValue]="null" disabled>Selecciona una categoría</option>
+                @for (cat of categories(); track cat.id) {
+                  <option [ngValue]="cat.id">{{ cat.name }}</option>
+                }
+              </select>
+              <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+            @if (category_id.invalid && category_id.touched) {
+              <span id="category-error" class="field-error" role="alert">Selecciona una categoría</span>
+            }
+          </div>
+
+          @if (error()) {
+            <div class="alert alert--error" role="alert">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              {{ error() }}
+            </div>
+          }
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary"
+              [disabled]="loading()" [attr.aria-busy]="loading()">
+              @if (!loading()) { {{ submitLabel() }} }
+              @if (loading()) {
+                <span class="spinner-sm" role="status" aria-label="Guardando"></span>
+              }
+            </button>
+            <a routerLink="/skills" class="btn-ghost">Cancelar</a>
+          </div>
+
+        </form>
+      </main>
+    }
+
+  </div>
+</div>
