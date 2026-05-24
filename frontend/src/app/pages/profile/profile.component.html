@@ -1,13 +1,11 @@
 <div class="profile-page">
 
-  <!-- LOADING -->
   @if (loading()) {
     <div class="state-loading" role="status" aria-label="Cargando perfil">
       <div class="spinner" aria-hidden="true"></div>
     </div>
   }
 
-  <!-- ERROR -->
   @if (error() && !loading()) {
     <div class="state-error" role="alert">
       <p>{{ error() }}</p>
@@ -15,11 +13,9 @@
     </div>
   }
 
-  <!-- PERFIL -->
   @if (profile() && !loading()) {
     <article class="profile-wrapper" aria-label="Perfil de {{ profile()!.name }}">
 
-      <!-- CABECERA HORIZONTAL -->
       <header class="profile-header">
         <div class="profile-header-inner">
 
@@ -27,11 +23,9 @@
 
           <div class="profile-meta">
             <div class="profile-meta-top">
-
               @if (!isEditing()) {
                 <h1 class="profile-name">{{ profile()!.name }}</h1>
               }
-
               <span class="role-badge" [class.role-badge--premium]="profile()!.role === 'user-premium'">
                 @if (profile()!.role === 'user-premium') { ★ Premium }
                 @if (profile()!.role === 'admin') { ⚙ Admin }
@@ -39,7 +33,6 @@
               </span>
             </div>
 
-            <!-- Bio -->
             @if (!isEditing() && profile()!.description) {
               <p class="profile-bio">{{ profile()!.description }}</p>
             }
@@ -50,9 +43,8 @@
               </p>
             }
 
-            <!-- Rating -->
             @if (ratingCount() > 0) {
-              <div class="rating-row" aria-label="Valoración: {{ averageRating() | number:'1.1-1' }} de 5">
+              <div class="rating-row" [attr.aria-label]="'Valoración: ' + averageRating() + ' de 5'">
                 <div class="stars" aria-hidden="true">
                   @for (s of starsArray(averageRating()); track $index) {
                     <span class="star" [class.star--full]="s === 'full'" [class.star--half]="s === 'half'">★</span>
@@ -68,7 +60,6 @@
             <p class="member-since">Miembro desde {{ memberSince() }}</p>
           </div>
 
-          <!-- Stats -->
           <div class="profile-stats" aria-label="Estadísticas del perfil">
             <div class="stat">
               <span class="stat-num">{{ (profile()!.skills ?? []).length }}</span>
@@ -86,10 +77,9 @@
             </div>
           </div>
 
-          <!-- Acciones -->
           @if (!isOwnProfile()) {
             <div class="profile-actions">
-              <button class="btn-primary">⇄ Proponer intercambio</button>
+              <button class="btn-primary" (click)="openExchangeModal()">⇄ Proponer intercambio</button>
               <button class="btn-ghost" (click)="goToMessages()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -114,7 +104,6 @@
         </div>
       </header>
 
-      <!-- FORMULARIO EDICIÓN -->
       @if (isEditing()) {
         <section class="edit-section" aria-label="Editar perfil">
           <form [formGroup]="editForm" (ngSubmit)="saveProfile()" class="edit-form">
@@ -146,18 +135,19 @@
         <div class="alert alert--success" role="status">✓ Perfil actualizado</div>
       }
 
-      <!-- SKILLS -->
       <main class="profile-skills">
 
         @if ((profile()!.skills ?? []).length === 0) {
           <div class="empty-state">
             <p>{{ isOwnProfile() ? 'Aún no has añadido ninguna habilidad.' : 'Este usuario no tiene habilidades publicadas.' }}</p>
+            @if (isOwnProfile()) {
+              <a routerLink="/skills/new" class="btn-primary btn-sm">+ Añadir habilidad</a>
+            }
           </div>
         }
 
         <div class="skills-grid">
 
-          <!-- Ofrece -->
           @if (offeringSkills().length > 0) {
             <section class="skills-col" aria-labelledby="offering-title">
               <div class="section-header">
@@ -177,11 +167,17 @@
                         [style.color]="skill.category?.color || '#1DB954'">
                         {{ skill.category?.name || 'General' }}
                       </span>
+                      @if (isOwnProfile()) {
+                        <div class="skill-actions">
+                          <button class="skill-btn-edit" (click)="editSkill(skill)" aria-label="Editar {{ skill.name }}">✏️</button>
+                          <button class="skill-btn-delete" (click)="deleteSkill(skill.id)" aria-label="Eliminar {{ skill.name }}">🗑️</button>
+                        </div>
+                      }
                     </div>
-                    <h3 class="skill-title">{{ skill.title }}</h3>
+                    <h3 class="skill-title">{{ skill.name }}</h3>
                     <p class="skill-desc">{{ skill.description }}</p>
                     @if (!isOwnProfile()) {
-                      <button class="btn-outline">Solicitar</button>
+                      <button class="btn-outline" (click)="openExchangeModal()">Solicitar</button>
                     }
                   </li>
                 }
@@ -189,7 +185,6 @@
             </section>
           }
 
-          <!-- Busca -->
           @if (seekingSkills().length > 0) {
             <section class="skills-col" aria-labelledby="seeking-title">
               <div class="section-header">
@@ -208,8 +203,14 @@
                         [style.color]="skill.category?.color || '#6b7280'">
                         {{ skill.category?.name || 'General' }}
                       </span>
+                      @if (isOwnProfile()) {
+                        <div class="skill-actions">
+                          <button class="skill-btn-edit" (click)="editSkill(skill)" aria-label="Editar {{ skill.name }}">✏️</button>
+                          <button class="skill-btn-delete" (click)="deleteSkill(skill.id)" aria-label="Eliminar {{ skill.name }}">🗑️</button>
+                        </div>
+                      }
                     </div>
-                    <h3 class="skill-title">{{ skill.title }}</h3>
+                    <h3 class="skill-title">{{ skill.name }}</h3>
                     <p class="skill-desc">{{ skill.description }}</p>
                   </li>
                 }
@@ -221,6 +222,66 @@
       </main>
 
     </article>
+  }
+
+  <!-- MODAL INTERCAMBIO -->
+  @if (showExchangeModal()) {
+    <div class="modal-overlay" role="dialog" aria-modal="true" aria-label="Proponer intercambio"
+      (click)="closeExchangeModal()" (keydown.escape)="closeExchangeModal()" tabindex="-1">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+
+        <div class="modal-header">
+          <h2>Proponer intercambio</h2>
+          <button class="modal-close" (click)="closeExchangeModal()" aria-label="Cerrar">✕</button>
+        </div>
+
+        @if (exchangeSuccess()) {
+          <div class="alert alert--success" role="status">✓ ¡Intercambio propuesto!</div>
+        }
+
+        @if (exchangeError()) {
+          <div class="alert alert--error" role="alert">{{ exchangeError() }}</div>
+        }
+
+        @if (!exchangeSuccess()) {
+          <form [formGroup]="exchangeForm" (ngSubmit)="proposeExchange()" class="exchange-form">
+
+            <div class="form-group">
+              <label for="offered-skill">Qué habilidad ofreces</label>
+              <select id="offered-skill" formControlName="offered_skill_id">
+                <option value="">Selecciona una de tus habilidades</option>
+                @for (skill of mySkills(); track skill.id) {
+                  <option [value]="skill.id">{{ skill.name }}</option>
+                }
+              </select>
+              @if (exchangeForm.get('offered_skill_id')?.invalid && exchangeForm.get('offered_skill_id')?.touched) {
+                <span class="field-error">Selecciona una habilidad</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="requested-skill">Qué habilidad buscas</label>
+              <select id="requested-skill" formControlName="requested_skill_id">
+                <option value="">Selecciona una habilidad del usuario</option>
+                @for (skill of offeringSkills(); track skill.id) {
+                  <option [value]="skill.id">{{ skill.name }}</option>
+                }
+              </select>
+              @if (exchangeForm.get('requested_skill_id')?.invalid && exchangeForm.get('requested_skill_id')?.touched) {
+                <span class="field-error">Selecciona una habilidad</span>
+              }
+            </div>
+
+            <div class="modal-actions">
+              <button type="submit" class="btn-primary">Proponer</button>
+              <button type="button" class="btn-ghost" (click)="closeExchangeModal()">Cancelar</button>
+            </div>
+
+          </form>
+        }
+
+      </div>
+    </div>
   }
 
 </div>

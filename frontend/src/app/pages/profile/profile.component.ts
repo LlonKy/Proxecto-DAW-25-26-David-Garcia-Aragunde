@@ -18,10 +18,10 @@ interface UserProfile {
 
 interface Skill {
   id: number;
-  title: string;
+  name: string;
   description: string;
   type: 'offering' | 'seeking';
-  category?: { name: string; color: string };
+  category?: { name: string; color?: string };
 }
 
 interface Rating { score: number; }
@@ -35,19 +35,24 @@ interface Rating { score: number; }
 export class Profile implements OnInit {
   private apiUrl = 'http://localhost:3001/api';
 
-  profile     = signal<UserProfile | null>(null);
-  loading     = signal(true);
-  error       = signal('');
+  profile = signal<UserProfile | null>(null);
+  loading = signal(true);
+  error = signal('');
   isOwnProfile = signal(false);
-  isEditing   = signal(false);
-  saving      = signal(false);
-  saveError   = signal('');
+  isEditing = signal(false);
+  saving = signal(false);
+  saveError = signal('');
   saveSuccess = signal(false);
+  showExchangeModal = signal(false);
+  exchangeSuccess = signal(false);
+  exchangeError = signal('');
+  mySkills = signal<Skill[]>([]);
 
   editForm: FormGroup;
+  exchangeForm: FormGroup;
 
   offeringSkills = computed(() => this.profile()?.skills?.filter(s => s.type === 'offering') ?? []);
-  seekingSkills  = computed(() => this.profile()?.skills?.filter(s => s.type === 'seeking')  ?? []);
+  seekingSkills = computed(() => this.profile()?.skills?.filter(s => s.type === 'seeking') ?? []);
 
   averageRating = computed(() => {
     const ratings = this.profile()?.ratings;
@@ -70,33 +75,39 @@ export class Profile implements OnInit {
   });
 
   constructor(
-    private route:  ActivatedRoute,
+    private route: ActivatedRoute,
     private router: Router,
-    private http:   HttpClient,
-    private auth:   AuthService,
-    private fb:     FormBuilder
+    private http: HttpClient,
+    private auth: AuthService,
+    private fb: FormBuilder
   ) {
     this.editForm = this.fb.group({
-      name:        ['', [Validators.required, Validators.minLength(2)]],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       description: ['']
+    });
+
+    this.exchangeForm = this.fb.group({
+      offered_skill_id: ['', Validators.required],
+      requested_skill_id: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const id          = params.get('id');
+      const id = params.get('id');
       const currentUser = this.auth.getCurrentUser();
 
       if (!id || id === 'me') {
         if (!currentUser) { this.router.navigate(['/login']); return; }
         this.isOwnProfile.set(true);
         this.loadProfile(currentUser.id);
-      } else if (currentUser && String(currentUser.id) === id) {
+      } else if (currentUser && String(currentUser.id) === String(id)) {
         this.isOwnProfile.set(true);
         this.loadProfile(id);
       } else {
         this.isOwnProfile.set(false);
         this.loadProfile(id);
+        this.loadMySkills();
       }
     });
   }
@@ -104,15 +115,33 @@ export class Profile implements OnInit {
   loadProfile(id: string | number): void {
     this.loading.set(true);
     this.http.get<UserProfile>(`${this.apiUrl}/users/${id}`).subscribe({
-      next: (user) => {
+      next: user => {
         this.profile.set(user);
         this.editForm.patchValue({ name: user.name, description: user.description || '' });
-        this.loading.set(false);
+        this.loadSkills(user.id);
       },
       error: () => {
         this.error.set('No se pudo cargar el perfil');
         this.loading.set(false);
       }
+    });
+  }
+
+  loadSkills(userId: number): void {
+    this.http.get<Skill[]>(`${this.apiUrl}/skills?user_id=${userId}`).subscribe({
+      next: skills => {
+        this.profile.update(p => p ? { ...p, skills } : p);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
+
+  loadMySkills(): void {
+    const currentUser = this.auth.getCurrentUser();
+    if (!currentUser) return;
+    this.http.get<Skill[]>(`${this.apiUrl}/skills?user_id=${currentUser.id}`).subscribe({
+      next: skills => this.mySkills.set(skills.filter(s => s.type === 'offering'))
     });
   }
 
@@ -136,13 +165,11 @@ export class Profile implements OnInit {
     this.http.put(`${this.apiUrl}/users/profile`, this.editForm.value).subscribe({
       next: (updated: any) => {
         this.profile.update(p => p ? { ...p, name: updated.name, description: updated.description } : p);
-
         const user = this.auth.getCurrentUser();
         if (user) {
           user.name = updated.name;
           localStorage.setItem('user', JSON.stringify(user));
         }
-
         this.saving.set(false);
         this.isEditing.set(false);
         this.saveSuccess.set(true);
@@ -153,6 +180,60 @@ export class Profile implements OnInit {
         this.saving.set(false);
       }
     });
+  }
+
+  openExchangeModal(): void {
+    if (this.isOwnProfile()) return;
+    this.exchangeSuccess.set(false);
+    this.exchangeError.set('');
+    this.exchangeForm.reset();
+    this.showExchangeModal.set(true);
+  }
+
+  closeExchangeModal(): void {
+    this.showExchangeModal.set(false);
+    this.exchangeForm.reset();
+  }
+
+  proposeExchange(): void {
+    if (this.exchangeForm.invalid) { this.exchangeForm.markAllAsTouched(); return; }
+    const profile = this.profile();
+    const currentUser = this.auth.getCurrentUser();
+    if (!profile || !currentUser) return;
+
+    this.http.post(`${this.apiUrl}/exchanges`, {
+      receiver_id: profile.id,
+      offered_skill_id: this.exchangeForm.value.offered_skill_id,
+      requested_skill_id: this.exchangeForm.value.requested_skill_id
+    }).subscribe({
+      next: () => {
+        this.exchangeSuccess.set(true);
+        setTimeout(() => this.closeExchangeModal(), 1500);
+      },
+      error: (err) => {
+        this.exchangeError.set(err.error?.message || 'Error al proponer el intercambio');
+      }
+    });
+  }
+
+  deleteSkill(skillId: number): void {
+    if (!confirm('¿Eliminar esta habilidad?')) return;
+    this.http.delete(`${this.apiUrl}/skills/${skillId}`).subscribe({
+      next: () => {
+        this.profile.update(p => p ? {
+          ...p,
+          skills: (p.skills ?? []).filter(s => s.id !== skillId)
+        } : p);
+      },
+      error: (err) => {
+        this.saveError.set(err.error?.message || 'Error al eliminar');
+        setTimeout(() => this.saveError.set(''), 3000);
+      }
+    });
+  }
+
+  editSkill(skill: Skill): void {
+    this.router.navigate(['/skills/edit', skill.id]);
   }
 
   goToMessages(): void {
