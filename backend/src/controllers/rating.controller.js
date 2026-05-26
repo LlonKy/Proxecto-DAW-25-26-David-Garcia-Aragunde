@@ -1,5 +1,4 @@
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+const prisma = require('../utils/prisma')
 
 // Obtener valoraciones de un usuario
 const getUserRatings = async (req, res) => {
