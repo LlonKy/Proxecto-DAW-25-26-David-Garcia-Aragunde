@@ -1,6 +1,5 @@
-const { PrismaClient } = require('@prisma/client')
 const bcrypt = require('bcryptjs')
-const prisma = new PrismaClient()
+const prisma = require('../utils/prisma')
 
 // Obtener perfil de un usuario por id
 const getUserById = async (req, res) => {

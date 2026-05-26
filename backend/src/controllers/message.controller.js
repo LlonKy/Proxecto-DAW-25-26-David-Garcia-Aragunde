@@ -1,5 +1,4 @@
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+const prisma = require('../utils/prisma')
 
 // Obtener conversación entre dos usuarios
 const getConversation = async (req, res) => {

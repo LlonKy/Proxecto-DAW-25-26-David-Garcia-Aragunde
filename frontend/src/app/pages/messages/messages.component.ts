@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +20,7 @@ interface OtherUser {
 
 @Component({
   selector: 'app-messages',
-  imports: [CommonModule, FormsModule, DatePipe],
+  imports: [CommonModule, FormsModule, DatePipe, RouterLink],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss'
 })
@@ -30,6 +30,7 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   private apiUrl = 'http://localhost:3001/api';
 
   messages       = signal<Message[]>([]);
+  conversations  = signal<any[]>([]);
   loading        = signal(true);
   error          = signal('');
   newMessageText = signal('');
@@ -54,6 +55,8 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
       if (this.otherId) {
         this.loadOtherUser();
         this.loadMessages();
+      } else {
+        this.loadConversations();
       }
     });
   }
@@ -89,6 +92,20 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  loadConversations(): void {
+    this.loading.set(true);
+    this.http.get<any[]>(`${this.apiUrl}/messages`).subscribe({
+      next: convs => {
+        this.conversations.set(convs);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('No se pudieron cargar las conversaciones');
+        this.loading.set(false);
+      }
+    });
+  }
+
   sendMessage(): void {
     const content = this.newMessageText().trim();
     if (!content || !this.currentUser) return;
@@ -111,6 +128,10 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   }
 
   goBack(): void {
-    this.router.navigate(['/profile', this.otherId]);
+    if (this.otherId) {
+      this.router.navigate(['/messages']);
+    } else {
+      this.router.navigate(['/skills']);
+    }
   }
 }
