@@ -481,17 +481,18 @@ $white: #ffffff;
   padding: 0 1.75rem 1.75rem;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 0.6rem;
 }
 
 .btn-primary {
   width: 100%;
-  padding: 0.85rem;
+  padding: 0.75rem 1.5rem;
   background: $green;
   color: $white;
   border: none;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
@@ -500,7 +501,7 @@ $white: #ffffff;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  min-height: 48px;
+  box-sizing: border-box;
 
   &:hover:not(:disabled) { background: $green-dark; }
   &:disabled { opacity: 0.7; cursor: not-allowed; }

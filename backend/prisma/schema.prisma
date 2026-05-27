@@ -114,6 +114,7 @@ model Message {
   exchange_id Int?
   content     String
   created_at  DateTime @default(now())
+  read_at     DateTime?
 
   sender   User      @relation("sender", fields: [sender_id], references: [id], onDelete: Cascade)
   receiver User      @relation("receiver", fields: [receiver_id], references: [id], onDelete: Cascade)

@@ -4,6 +4,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
 
 interface Message {
   id: number;
@@ -44,7 +45,8 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
     private route:  ActivatedRoute,
     private router: Router,
     private http:   HttpClient,
-    private auth:   AuthService
+    private auth:   AuthService,
+    private notifService: NotificationService
   ) {
     this.currentUser = this.auth.getCurrentUser();
   }
@@ -84,6 +86,7 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
       next: msgs => {
         this.messages.set(msgs);
         this.loading.set(false);
+        this.notifService.fetchAll(); // Actualiza el contador de notificaciones de inmediato
       },
       error: () => {
         this.error.set('No se pudieron cargar los mensajes');
@@ -119,6 +122,7 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
         this.messages.update(msgs => [...msgs, msg]);
         this.newMessageText.set('');
         this.sending.set(false);
+        this.notifService.fetchAll(); // Actualizar notificaciones al enviar
       },
       error: () => {
         this.error.set('Error al enviar mensaje');

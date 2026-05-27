@@ -5,6 +5,18 @@ const getConversation = async (req, res) => {
     const { userId } = req.params
 
     try {
+        // Marcamos como leídos los mensajes que recibo de este usuario
+        await prisma.message.updateMany({
+            where: {
+                sender_id: parseInt(userId),
+                receiver_id: req.user.id,
+                read_at: null
+            },
+            data: {
+                read_at: new Date()
+            }
+        })
+
         const messages = await prisma.message.findMany({
             where: {
                 OR: [
@@ -95,4 +107,20 @@ const sendMessage = async (req, res) => {
     }
 }
 
-module.exports = { getConversation, getMyConversations, sendMessage }
+// Obtener la cantidad de mensajes no leídos del usuario
+const getUnreadCount = async (req, res) => {
+    try {
+        const count = await prisma.message.count({
+            where: {
+                receiver_id: req.user.id,
+                read_at: null
+            }
+        })
+        res.json({ unreadCount: count })
+    } catch (err) {
+        console.error('Error al obtener cantidad de mensajes no leídos:', err)
+        res.status(500).json({ error: 'Error interno del servidor' })
+    }
+}
+
+module.exports = { getConversation, getMyConversations, sendMessage, getUnreadCount }

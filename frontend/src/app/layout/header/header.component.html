@@ -40,39 +40,75 @@
     }
 
     @if (isLoggedIn()) {
-      <nav class="header-nav" aria-label="Navegación principal">
-        <ul role="list">
-          <li><a routerLink="/skills" routerLinkActive="active">Explorar</a></li>
-          <li><a routerLink="/exchanges" routerLinkActive="active">Mis intercambios</a></li>
-          <li><a routerLink="/messages" routerLinkActive="active">Mensajes</a></li>
+      <!-- Menú hamburguesa (solo móvil) -->
+      <button
+        class="hamburger"
+        [class.hamburger--open]="menuOpen()"
+        (click)="toggleMenu()"
+        aria-label="Abrir menú"
+        [attr.aria-expanded]="menuOpen()"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-          <li>
-            <button class="icon-btn" aria-label="Notificaciones">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-              </svg>
-            </button>
+      <nav class="header-nav" [class.header-nav--open]="menuOpen()" aria-label="Navegación principal">
+        <ul role="list">
+          <li><a routerLink="/skills" routerLinkActive="active" (click)="closeMenu()">Explorar</a></li>
+
+          <li style="position:relative">
+            <a routerLink="/exchanges" routerLinkActive="active" (click)="closeMenu()">
+              Mis intercambios
+              @if (notifService.pendingExchanges() > 0) {
+                <span class="nav-badge" aria-label="{{ notifService.pendingExchanges() }} intercambios pendientes">
+                  {{ notifService.pendingExchanges() > 9 ? '9+' : notifService.pendingExchanges() }}
+                </span>
+              }
+            </a>
+          </li>
+
+          <li style="position:relative">
+            <a routerLink="/messages" routerLinkActive="active" (click)="closeMenu()">
+              Mensajes
+              @if (notifService.unreadMessages() > 0) {
+                <span class="nav-badge" aria-label="{{ notifService.unreadMessages() }} mensajes no leídos">
+                  {{ notifService.unreadMessages() > 9 ? '9+' : notifService.unreadMessages() }}
+                </span>
+              }
+            </a>
+          </li>
+
+          <!-- Opciones de perfil exclusivas para móvil -->
+          <li class="mobile-only">
+            <a routerLink="/profile/me" (click)="closeMenu()">Mi perfil</a>
+          </li>
+          <li class="mobile-only">
+            <a routerLink="/skills/new" (click)="closeMenu()">Publicar skill</a>
+          </li>
+          <li class="mobile-only separator" aria-hidden="true"></li>
+          <li class="mobile-only">
+            <button class="mobile-logout" (click)="logout()">Cerrar sesión</button>
           </li>
 
           <li class="avatar-menu">
             <button
               class="avatar-btn"
-              (click)="toggleMenu()"
-              [attr.aria-expanded]="menuOpen()"
+              (click)="toggleProfileMenu()"
+              [attr.aria-expanded]="profileMenuOpen()"
               aria-haspopup="true"
               aria-label="Menú de usuario"
             >
               <span class="avatar" aria-hidden="true">{{ initials() }}</span>
             </button>
 
-            @if (menuOpen()) {
-              <ul class="dropdown" role="menu" (mouseleave)="closeMenu()">
+            @if (profileMenuOpen()) {
+              <ul class="dropdown" role="menu" (mouseleave)="closeProfileMenu()">
                 <li role="none">
-                  <a routerLink="/profile/me" role="menuitem" (click)="closeMenu()">Mi perfil</a>
+                  <a routerLink="/profile/me" role="menuitem" (click)="closeProfileMenu(); closeMenu()">Mi perfil</a>
                 </li>
                 <li role="none">
-                  <a routerLink="/skills/new" role="menuitem" (click)="closeMenu()">Publicar skill</a>
+                  <a routerLink="/skills/new" role="menuitem" (click)="closeProfileMenu(); closeMenu()">Publicar skill</a>
                 </li>
                 <li role="separator" class="menu-divider"></li>
                 <li role="none">
