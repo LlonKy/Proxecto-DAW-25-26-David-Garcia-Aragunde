@@ -5,6 +5,8 @@ $gray: #6b7280;
 $border: #e4e4e7;
 $white: #ffffff;
 
+$mobile-breakpoint: 768px;
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -16,6 +18,8 @@ $white: #ffffff;
   white-space: nowrap;
   border: 0;
 }
+
+// ─── HEADER SHELL ───────────────────────────────────────────────────────────
 
 .site-header {
   position: sticky;
@@ -36,7 +40,8 @@ $white: #ffffff;
   gap: 1.5rem;
 }
 
-// Logo
+// ─── LOGO ────────────────────────────────────────────────────────────────────
+
 .header-logo {
   display: flex;
   align-items: center;
@@ -48,7 +53,8 @@ $white: #ffffff;
   .logo-text  { font-size: 1.3rem; font-weight: 700; color: $black; letter-spacing: -0.02em; }
 }
 
-// Buscador
+// ─── BUSCADOR ────────────────────────────────────────────────────────────────
+
 .header-search {
   flex: 1;
   max-width: 400px;
@@ -87,7 +93,44 @@ $white: #ffffff;
   }
 }
 
-// Nav
+// ─── HAMBURGUESA (solo móvil) ────────────────────────────────────────────────
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+  z-index: 200;
+
+  span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: $black;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    transform-origin: center;
+  }
+
+  // Animación a X cuando está abierto
+  &--open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+  &--open span:nth-child(2) { opacity: 0; }
+  &--open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+  @media (max-width: $mobile-breakpoint) {
+    display: flex;
+  }
+}
+
+// ─── NAV ─────────────────────────────────────────────────────────────────────
+
 .header-nav {
   margin-left: auto;
 
@@ -108,6 +151,10 @@ $white: #ffffff;
     padding: 0.4rem 0.75rem;
     border-radius: 8px;
     transition: color 0.2s, background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    position: relative;
 
     &:hover, &.active { color: $black; background: #f4f4f5; }
   }
@@ -123,27 +170,108 @@ $white: #ffffff;
     color: $white;
     &:hover { background: $green-dark; }
   }
+
+  .mobile-only {
+    display: none;
+  }
+
+  // ─── VERSIÓN MÓVIL ────────────────────────────────────────────────────────
+
+  @media (max-width: $mobile-breakpoint) {
+    display: none;
+    position: fixed;
+    inset: 64px 0 0 0;
+    background: $white;
+    z-index: 150;
+    padding: 1.5rem 1.5rem 2rem;
+    border-top: 1px solid $border;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    margin-left: 0;
+    overflow-y: auto;
+
+    &--open {
+      display: flex;
+      flex-direction: column;
+    }
+
+    ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.25rem;
+      width: 100%;
+    }
+
+    a {
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      justify-content: space-between;
+    }
+
+    .mobile-only {
+      display: block;
+
+      &.separator {
+        height: 1px;
+        background: $border;
+        margin: 0.5rem 1rem;
+        display: block;
+      }
+    }
+
+    .mobile-logout {
+      width: 100%;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      text-align: left;
+      color: #ef4444;
+      cursor: pointer;
+      display: block;
+
+      &:hover {
+        background: #f4f4f5;
+      }
+    }
+  }
 }
 
-// Botón icono (notificaciones)
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.4rem;
-  border-radius: 8px;
-  display: flex;
+// ─── BADGE NOTIFICACIONES EN NAV ─────────────────────────────────────────────
+
+.nav-badge {
+  display: inline-flex;
   align-items: center;
-  color: $gray;
-  transition: color 0.2s, background 0.2s;
-
-  svg { width: 20px; height: 20px; }
-  &:hover { color: $black; background: #f4f4f5; }
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  background: #ef4444;
+  color: $white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0 4px;
+  line-height: 1;
+  animation: notif-pop 0.3s ease;
 }
 
-// Avatar + dropdown
+@keyframes notif-pop {
+  0%   { transform: scale(0); }
+  70%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+// ─── AVATAR + DROPDOWN ───────────────────────────────────────────────────────
+
 .avatar-menu {
   position: relative;
+
+  @media (max-width: $mobile-breakpoint) {
+    display: none;
+  }
 }
 
 .avatar-btn {
@@ -180,6 +308,8 @@ $white: #ffffff;
   list-style: none;
   margin: 0;
   z-index: 200;
+  display: flex;
+  flex-direction: column;
 
   li a, li button {
     display: block;

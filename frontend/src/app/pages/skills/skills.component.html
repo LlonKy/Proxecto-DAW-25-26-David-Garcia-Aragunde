@@ -117,13 +117,13 @@
       @if (!loading() && filtered().length > 0) {
         <ul class="skills-grid" role="list">
           @for (skill of filtered(); track skill.id) {
-            <li class="skill-card" [style.border-left-color]="skill.category?.color || '#1DB954'">
+            <li class="skill-card" [style.border-left-color]="getCategoryColor(skill.category?.name)">
 
               <div class="skill-card-top">
                 <span class="category-badge"
-                  [style.background]="(skill.category?.color || '#1DB954') + '18'"
-                  [style.color]="skill.category?.color || '#1DB954'">
-                  {{ skill.category?.name || 'General' }}
+                  [style.background]="getCategoryColor(skill.category?.name) + '18'"
+                  [style.color]="getCategoryColor(skill.category?.name)">
+                  {{ getCategoryIcon(skill.category?.name) }} {{ skill.category?.name || 'General' }}
                 </span>
                 <span class="type-badge" [class.type-badge--seeking]="skill.type === 'seeking'">
                   {{ skill.type === 'offering' ? 'Ofrece' : 'Busca' }}
@@ -138,7 +138,7 @@
                   <a [routerLink]="['/profile', skill.user.id]" class="skill-user"
                     [attr.aria-label]="'Ver perfil de ' + skill.user.name">
                     <span class="user-avatar"
-                      [style.background]="skill.category?.color || '#1DB954'"
+                      [style.background]="getCategoryColor(skill.category?.name)"
                       aria-hidden="true">
                       {{ getInitials(skill.user.name) }}
                     </span>
@@ -176,12 +176,12 @@
           </svg>
         </button>
 
-        <div class="modal-header" [style.border-left-color]="selectedSkill()!.category?.color || '#1DB954'">
+        <div class="modal-header" [style.border-left-color]="getCategoryColor(selectedSkill()!.category?.name)">
           <div class="modal-badges">
             <span class="category-badge"
-              [style.background]="(selectedSkill()!.category?.color || '#1DB954') + '18'"
-              [style.color]="selectedSkill()!.category?.color || '#1DB954'">
-              {{ selectedSkill()!.category?.name || 'General' }}
+              [style.background]="getCategoryColor(selectedSkill()!.category?.name) + '18'"
+              [style.color]="getCategoryColor(selectedSkill()!.category?.name)">
+              {{ getCategoryIcon(selectedSkill()!.category?.name) }} {{ selectedSkill()!.category?.name || 'General' }}
             </span>
             <span class="type-badge" [class.type-badge--seeking]="selectedSkill()!.type === 'seeking'">
               {{ selectedSkill()!.type === 'offering' ? 'Ofrece' : 'Busca' }}
@@ -202,7 +202,7 @@
                 [attr.aria-label]="'Ver perfil de ' + selectedSkill()!.user!.name"
               >
                 <span class="user-avatar"
-                  [style.background]="selectedSkill()!.category?.color || '#1DB954'"
+                  [style.background]="getCategoryColor(selectedSkill()!.category?.name)"
                   aria-hidden="true">
                   {{ getInitials(selectedSkill()!.user!.name) }}
                 </span>

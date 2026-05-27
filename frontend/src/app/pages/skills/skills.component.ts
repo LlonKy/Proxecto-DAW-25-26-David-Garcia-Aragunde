@@ -6,6 +6,20 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { Skill, Category } from '../../models/skill.model';
 
+const CATEGORY_PALETTE: Record<string, { color: string; icon: string }> = {
+  'Tecnología':  { color: '#1DB954', icon: '💻' },
+  'Música':      { color: '#8b5cf6', icon: '🎵' },
+  'Idiomas':     { color: '#3b82f6', icon: '💬' },
+  'Diseño':      { color: '#ec4899', icon: '🎨' },
+  'Deporte':     { color: '#ef4444', icon: '⚡' },
+  'Cocina':      { color: '#f59e0b', icon: '🍳' },
+  'Educación':   { color: '#06b6d4', icon: '📚' },
+  'Negocios':    { color: '#6366f1', icon: '📊' },
+};
+
+const DEFAULT_COLOR = '#1DB954';
+const DEFAULT_ICON  = '⭐';
+
 @Component({
   selector: 'app-skills',
   imports: [CommonModule, RouterLink, FormsModule],
@@ -128,5 +142,13 @@ export class Skills implements OnInit {
 
   getInitials(name: string = ''): string {
     return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  }
+
+  getCategoryColor(name: string = ''): string {
+    return CATEGORY_PALETTE[name]?.color ?? DEFAULT_COLOR;
+  }
+
+  getCategoryIcon(name: string = ''): string {
+    return CATEGORY_PALETTE[name]?.icon ?? DEFAULT_ICON;
   }
 }
