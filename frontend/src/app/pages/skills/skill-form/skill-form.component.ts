@@ -1,8 +1,9 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Category, Skill } from '../../../models/skill.model';
 
 @Component({
@@ -13,6 +14,7 @@ import { Category, Skill } from '../../../models/skill.model';
 })
 export class SkillForm implements OnInit {
   private apiUrl = 'http://localhost:3001/api';
+  private destroyRef = inject(DestroyRef);
 
   form!: FormGroup;
   categories  = signal<Category[]>([]);
@@ -51,28 +53,32 @@ export class SkillForm implements OnInit {
   }
 
   loadCategories(): void {
-    this.http.get<Category[]>(`${this.apiUrl}/categories`).subscribe({
-      next: c => this.categories.set(c)
-    });
+    this.http.get<Category[]>(`${this.apiUrl}/categories`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: c => this.categories.set(c)
+      });
   }
 
   loadSkill(id: number): void {
     this.loadingData.set(true);
-    this.http.get<Skill>(`${this.apiUrl}/skills/${id}`).subscribe({
-      next: skill => {
-        this.form.patchValue({
-          name:        skill.name,
-          description: skill.description,
-          type:        skill.type,
-          category_id: skill.category?.id ?? null
-        });
-        this.loadingData.set(false);
-      },
-      error: () => {
-        this.error.set('No se pudo cargar la habilidad');
-        this.loadingData.set(false);
-      }
-    });
+    this.http.get<Skill>(`${this.apiUrl}/skills/${id}`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: skill => {
+          this.form.patchValue({
+            name:        skill.name,
+            description: skill.description,
+            type:        skill.type,
+            category_id: skill.category?.id ?? null
+          });
+          this.loadingData.set(false);
+        },
+        error: () => {
+          this.error.set('No se pudo cargar la habilidad');
+          this.loadingData.set(false);
+        }
+      });
   }
 
   onSubmit(): void {
@@ -84,13 +90,15 @@ export class SkillForm implements OnInit {
       ? this.http.put(`${this.apiUrl}/skills/${this.skillId()}`, this.form.value)
       : this.http.post(`${this.apiUrl}/skills`, this.form.value);
 
-    request.subscribe({
-      next:  () => this.router.navigate(['/profile/me']),
-      error: (err) => {
-        this.error.set(err.error?.message || 'Error al guardar la habilidad');
-        this.loading.set(false);
-      }
-    });
+    request
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next:  () => this.router.navigate(['/profile/me']),
+        error: (err) => {
+          this.error.set(err.error?.message || 'Error al guardar la habilidad');
+          this.loading.set(false);
+        }
+      });
   }
 
   get name()        { return this.form.get('name')!; }

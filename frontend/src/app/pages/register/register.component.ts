@@ -5,6 +5,8 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../services/auth.service';
 
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -26,6 +28,7 @@ export class Register {
   error        = signal('');
   showPassword = signal(false);
   showConfirm  = signal(false);
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private fb:   FormBuilder,
@@ -53,12 +56,14 @@ export class Register {
     this.loading.set(true);
     this.error.set('');
 
-    this.auth.register(this.name.value, this.email.value, this.password.value).subscribe({
-      next:  () => this.router.navigate(['/profile/me']),
-      error: (err) => {
-        this.error.set(err.error?.message || 'Error al crear la cuenta');
-        this.loading.set(false);
-      }
-    });
+    this.auth.register(this.name.value, this.email.value, this.password.value)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next:  () => this.router.navigate(['/profile/me']),
+        error: (err) => {
+          this.error.set(err.error?.message || 'Error al crear la cuenta');
+          this.loading.set(false);
+        }
+      });
   }
 }

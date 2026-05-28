@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 interface SkillCard {
   category: string;
   categoryColor: string;
-  categoryIcon: string;
   title: string;
   description: string;
   user: string;
@@ -21,7 +20,6 @@ export class Landing {
     {
       category: 'Idiomas',
       categoryColor: '#3b82f6',
-      categoryIcon: '💬',
       title: 'Conversación en inglés',
       description: 'Practica inglés hablado en situaciones cotidianas y de trabajo.',
       user: 'Carlos Ruiz'
@@ -29,7 +27,6 @@ export class Landing {
     {
       category: 'Cocina',
       categoryColor: '#f59e0b',
-      categoryIcon: '🍳',
       title: 'Cocina italiana',
       description: 'Aprende a hacer pasta fresca, risotto y recetas clásicas.',
       user: 'Lucía Romano'
@@ -37,7 +34,6 @@ export class Landing {
     {
       category: 'Código',
       categoryColor: '#1DB954',
-      categoryIcon: '💻',
       title: 'Introducción a Python',
       description: 'Fundamentos de programación con Python desde cero.',
       user: 'Adrián López'
@@ -45,7 +41,6 @@ export class Landing {
     {
       category: 'Deporte',
       categoryColor: '#ef4444',
-      categoryIcon: '⚡',
       title: 'Yoga para principiantes',
       description: 'Flexibilidad, fuerza y mindfulness en sesiones de 30 min.',
       user: 'Priya Sharma'
@@ -53,7 +48,6 @@ export class Landing {
     {
       category: 'Música',
       categoryColor: '#8b5cf6',
-      categoryIcon: '🎵',
       title: 'Guitarra acústica',
       description: 'Aprende acordes y canciones populares desde el primer día.',
       user: 'Marta Gil'
@@ -61,7 +55,6 @@ export class Landing {
     {
       category: 'Diseño',
       categoryColor: '#ec4899',
-      categoryIcon: '🎨',
       title: 'Figma desde cero',
       description: 'Diseña interfaces modernas con la herramienta más usada.',
       user: 'Iván Torres'

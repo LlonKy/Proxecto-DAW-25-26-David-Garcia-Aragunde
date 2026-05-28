@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -16,6 +18,7 @@ export class Login {
   loading = false;
   error = '';
   showPassword = false;
+  private destroyRef = inject(DestroyRef);
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
     this.form = this.fb.group({
@@ -35,12 +38,14 @@ export class Login {
     this.loading = true;
     this.error = '';
 
-    this.auth.login(this.email.value, this.password.value).subscribe({
-      next: () => this.router.navigate(['/profile/me']),
-      error: (err) => {
-        this.error = err.error?.message || 'Credenciales incorrectas';
-        this.loading = false;
-      }
-    });
+    this.auth.login(this.email.value, this.password.value)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.router.navigate(['/profile/me']),
+        error: (err) => {
+          this.error = err.error?.message || 'Credenciales incorrectas';
+          this.loading = false;
+        }
+      });
   }
 }

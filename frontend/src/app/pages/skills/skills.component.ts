@@ -1,24 +1,24 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../services/auth.service';
 import { Skill, Category } from '../../models/skill.model';
 
-const CATEGORY_PALETTE: Record<string, { color: string; icon: string }> = {
-  'Tecnología':  { color: '#1DB954', icon: '💻' },
-  'Música':      { color: '#8b5cf6', icon: '🎵' },
-  'Idiomas':     { color: '#3b82f6', icon: '💬' },
-  'Diseño':      { color: '#ec4899', icon: '🎨' },
-  'Deporte':     { color: '#ef4444', icon: '⚡' },
-  'Cocina':      { color: '#f59e0b', icon: '🍳' },
-  'Educación':   { color: '#06b6d4', icon: '📚' },
-  'Negocios':    { color: '#6366f1', icon: '📊' },
+const CATEGORY_PALETTE: Record<string, { color: string }> = {
+  'Tecnología':  { color: '#1DB954' },
+  'Música':      { color: '#8b5cf6' },
+  'Idiomas':     { color: '#3b82f6' },
+  'Diseño':      { color: '#ec4899' },
+  'Deporte':     { color: '#ef4444' },
+  'Cocina':      { color: '#f59e0b' },
+  'Educación':   { color: '#06b6d4' },
+  'Negocios':    { color: '#6366f1' },
 };
 
 const DEFAULT_COLOR = '#1DB954';
-const DEFAULT_ICON  = '⭐';
 
 @Component({
   selector: 'app-skills',
@@ -28,6 +28,7 @@ const DEFAULT_ICON  = '⭐';
 })
 export class Skills implements OnInit {
   private apiUrl = 'http://localhost:3001/api';
+  private destroyRef = inject(DestroyRef);
 
   skills          = signal<Skill[]>([]);
   categories      = signal<Category[]>([]);
@@ -86,16 +87,20 @@ export class Skills implements OnInit {
 
   loadSkills(): void {
     this.loading.set(true);
-    this.http.get<Skill[]>(`${this.apiUrl}/skills`).subscribe({
-      next:  s  => { this.skills.set(s); this.loading.set(false); },
-      error: () => { this.error.set('No se pudieron cargar las habilidades'); this.loading.set(false); }
-    });
+    this.http.get<Skill[]>(`${this.apiUrl}/skills`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next:  s  => { this.skills.set(s); this.loading.set(false); },
+        error: () => { this.error.set('No se pudieron cargar las habilidades'); this.loading.set(false); }
+      });
   }
 
   loadCategories(): void {
-    this.http.get<Category[]>(`${this.apiUrl}/categories`).subscribe({
-      next: c => this.categories.set(c)
-    });
+    this.http.get<Category[]>(`${this.apiUrl}/categories`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: c => this.categories.set(c)
+      });
   }
 
   setType(type: 'all' | 'offering' | 'seeking'): void { this.activeType.set(type); }
@@ -131,13 +136,15 @@ export class Skills implements OnInit {
     this.loadingDetail.set(true);
     this.exchangeError.set('');
 
-    this.http.post(`${this.apiUrl}/exchanges`, { skill_ids: [skill.id] }).subscribe({
-      next:  () => { this.exchangeSuccess.set(true); this.loadingDetail.set(false); },
-      error: (err) => {
-        this.exchangeError.set(err.error?.message || 'Error al solicitar el intercambio');
-        this.loadingDetail.set(false);
-      }
-    });
+    this.http.post(`${this.apiUrl}/exchanges`, { skill_ids: [skill.id] })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next:  () => { this.exchangeSuccess.set(true); this.loadingDetail.set(false); },
+        error: (err) => {
+          this.exchangeError.set(err.error?.message || 'Error al solicitar el intercambio');
+          this.loadingDetail.set(false);
+        }
+      });
   }
 
   getInitials(name: string = ''): string {
@@ -148,7 +155,4 @@ export class Skills implements OnInit {
     return CATEGORY_PALETTE[name]?.color ?? DEFAULT_COLOR;
   }
 
-  getCategoryIcon(name: string = ''): string {
-    return CATEGORY_PALETTE[name]?.icon ?? DEFAULT_ICON;
-  }
 }

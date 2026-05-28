@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild, signal } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild, signal, inject, DestroyRef } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 
@@ -29,6 +30,7 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   @ViewChild('messagesList') messagesList!: ElementRef;
 
   private apiUrl = 'http://localhost:3001/api';
+  private destroyRef = inject(DestroyRef);
 
   messages       = signal<Message[]>([]);
   conversations  = signal<any[]>([]);
@@ -75,38 +77,44 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   }
 
   loadOtherUser(): void {
-    this.http.get<OtherUser>(`${this.apiUrl}/users/${this.otherId}`).subscribe({
-      next: user => this.otherUserName.set(user.name)
-    });
+    this.http.get<OtherUser>(`${this.apiUrl}/users/${this.otherId}`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: user => this.otherUserName.set(user.name)
+      });
   }
 
   loadMessages(): void {
     this.loading.set(true);
-    this.http.get<Message[]>(`${this.apiUrl}/messages/${this.otherId}`).subscribe({
-      next: msgs => {
-        this.messages.set(msgs);
-        this.loading.set(false);
-        this.notifService.fetchAll(); // Actualiza el contador de notificaciones de inmediato
-      },
-      error: () => {
-        this.error.set('No se pudieron cargar los mensajes');
-        this.loading.set(false);
-      }
-    });
+    this.http.get<Message[]>(`${this.apiUrl}/messages/${this.otherId}`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: msgs => {
+          this.messages.set(msgs);
+          this.loading.set(false);
+          this.notifService.fetchAll(); // Actualiza el contador de notificaciones de inmediato
+        },
+        error: () => {
+          this.error.set('No se pudieron cargar los mensajes');
+          this.loading.set(false);
+        }
+      });
   }
 
   loadConversations(): void {
     this.loading.set(true);
-    this.http.get<any[]>(`${this.apiUrl}/messages`).subscribe({
-      next: convs => {
-        this.conversations.set(convs);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set('No se pudieron cargar las conversaciones');
-        this.loading.set(false);
-      }
-    });
+    this.http.get<any[]>(`${this.apiUrl}/messages`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: convs => {
+          this.conversations.set(convs);
+          this.loading.set(false);
+        },
+        error: () => {
+          this.error.set('No se pudieron cargar las conversaciones');
+          this.loading.set(false);
+        }
+      });
   }
 
   sendMessage(): void {
@@ -117,18 +125,20 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
     this.http.post<Message>(`${this.apiUrl}/messages`, {
       receiver_id: this.otherId,
       content
-    }).subscribe({
-      next: msg => {
-        this.messages.update(msgs => [...msgs, msg]);
-        this.newMessageText.set('');
-        this.sending.set(false);
-        this.notifService.fetchAll(); // Actualizar notificaciones al enviar
-      },
-      error: () => {
-        this.error.set('Error al enviar mensaje');
-        this.sending.set(false);
-      }
-    });
+    })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: msg => {
+          this.messages.update(msgs => [...msgs, msg]);
+          this.newMessageText.set('');
+          this.sending.set(false);
+          this.notifService.fetchAll(); // Actualizar notificaciones al enviar
+        },
+        error: () => {
+          this.error.set('Error al enviar mensaje');
+          this.sending.set(false);
+        }
+      });
   }
 
   goBack(): void {

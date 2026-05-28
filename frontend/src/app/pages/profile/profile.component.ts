@@ -1,8 +1,9 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject, DestroyRef } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../services/auth.service';
 
 interface UserProfile {
@@ -34,6 +35,7 @@ interface Rating { score: number; }
 })
 export class Profile implements OnInit {
   private apiUrl = 'http://localhost:3001/api';
+  private destroyRef = inject(DestroyRef);
 
   profile = signal<UserProfile | null>(null);
   loading = signal(true);
@@ -114,35 +116,41 @@ export class Profile implements OnInit {
 
   loadProfile(id: string | number): void {
     this.loading.set(true);
-    this.http.get<UserProfile>(`${this.apiUrl}/users/${id}`).subscribe({
-      next: user => {
-        this.profile.set(user);
-        this.editForm.patchValue({ name: user.name, description: user.description || '' });
-        this.loadSkills(user.id);
-      },
-      error: () => {
-        this.error.set('No se pudo cargar el perfil');
-        this.loading.set(false);
-      }
-    });
+    this.http.get<UserProfile>(`${this.apiUrl}/users/${id}`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: user => {
+          this.profile.set(user);
+          this.editForm.patchValue({ name: user.name, description: user.description || '' });
+          this.loadSkills(user.id);
+        },
+        error: () => {
+          this.error.set('No se pudo cargar el perfil');
+          this.loading.set(false);
+        }
+      });
   }
 
   loadSkills(userId: number): void {
-    this.http.get<Skill[]>(`${this.apiUrl}/skills?user_id=${userId}`).subscribe({
-      next: skills => {
-        this.profile.update(p => p ? { ...p, skills } : p);
-        this.loading.set(false);
-      },
-      error: () => this.loading.set(false)
-    });
+    this.http.get<Skill[]>(`${this.apiUrl}/skills?user_id=${userId}`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: skills => {
+          this.profile.update(p => p ? { ...p, skills } : p);
+          this.loading.set(false);
+        },
+        error: () => this.loading.set(false)
+      });
   }
 
   loadMySkills(): void {
     const currentUser = this.auth.getCurrentUser();
     if (!currentUser) return;
-    this.http.get<Skill[]>(`${this.apiUrl}/skills?user_id=${currentUser.id}`).subscribe({
-      next: skills => this.mySkills.set(skills.filter(s => s.type === 'offering'))
-    });
+    this.http.get<Skill[]>(`${this.apiUrl}/skills?user_id=${currentUser.id}`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: skills => this.mySkills.set(skills.filter(s => s.type === 'offering'))
+      });
   }
 
   startEdit(): void {
@@ -162,24 +170,26 @@ export class Profile implements OnInit {
     this.saving.set(true);
     this.saveError.set('');
 
-    this.http.put(`${this.apiUrl}/users/profile`, this.editForm.value).subscribe({
-      next: (updated: any) => {
-        this.profile.update(p => p ? { ...p, name: updated.name, description: updated.description } : p);
-        const user = this.auth.getCurrentUser();
-        if (user) {
-          user.name = updated.name;
-          localStorage.setItem('user', JSON.stringify(user));
+    this.http.put(`${this.apiUrl}/users/profile`, this.editForm.value)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (updated: any) => {
+          this.profile.update(p => p ? { ...p, name: updated.name, description: updated.description } : p);
+          const user = this.auth.getCurrentUser();
+          if (user) {
+            user.name = updated.name;
+            localStorage.setItem('user', JSON.stringify(user));
+          }
+          this.saving.set(false);
+          this.isEditing.set(false);
+          this.saveSuccess.set(true);
+          setTimeout(() => this.saveSuccess.set(false), 3000);
+        },
+        error: (err) => {
+          this.saveError.set(err.error?.message || 'Error al guardar');
+          this.saving.set(false);
         }
-        this.saving.set(false);
-        this.isEditing.set(false);
-        this.saveSuccess.set(true);
-        setTimeout(() => this.saveSuccess.set(false), 3000);
-      },
-      error: (err) => {
-        this.saveError.set(err.error?.message || 'Error al guardar');
-        this.saving.set(false);
-      }
-    });
+      });
   }
 
   openExchangeModal(): void {
@@ -205,31 +215,35 @@ export class Profile implements OnInit {
       receiver_id: profile.id,
       offered_skill_id: this.exchangeForm.value.offered_skill_id,
       requested_skill_id: this.exchangeForm.value.requested_skill_id
-    }).subscribe({
-      next: () => {
-        this.exchangeSuccess.set(true);
-        setTimeout(() => this.closeExchangeModal(), 1500);
-      },
-      error: (err) => {
-        this.exchangeError.set(err.error?.message || 'Error al proponer el intercambio');
-      }
-    });
+    })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.exchangeSuccess.set(true);
+          setTimeout(() => this.closeExchangeModal(), 1500);
+        },
+        error: (err) => {
+          this.exchangeError.set(err.error?.message || 'Error al proponer el intercambio');
+        }
+      });
   }
 
   deleteSkill(skillId: number): void {
     if (!confirm('¿Eliminar esta habilidad?')) return;
-    this.http.delete(`${this.apiUrl}/skills/${skillId}`).subscribe({
-      next: () => {
-        this.profile.update(p => p ? {
-          ...p,
-          skills: (p.skills ?? []).filter(s => s.id !== skillId)
-        } : p);
-      },
-      error: (err) => {
-        this.saveError.set(err.error?.message || 'Error al eliminar');
-        setTimeout(() => this.saveError.set(''), 3000);
-      }
-    });
+    this.http.delete(`${this.apiUrl}/skills/${skillId}`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.profile.update(p => p ? {
+            ...p,
+            skills: (p.skills ?? []).filter(s => s.id !== skillId)
+          } : p);
+        },
+        error: (err) => {
+          this.saveError.set(err.error?.message || 'Error al eliminar');
+          setTimeout(() => this.saveError.set(''), 3000);
+        }
+      });
   }
 
   editSkill(skill: Skill): void {
