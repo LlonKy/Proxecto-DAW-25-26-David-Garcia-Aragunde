@@ -123,7 +123,7 @@
                 <span class="category-badge"
                   [style.background]="getCategoryColor(skill.category?.name) + '18'"
                   [style.color]="getCategoryColor(skill.category?.name)">
-                  {{ getCategoryIcon(skill.category?.name) }} {{ skill.category?.name || 'General' }}
+                  {{ skill.category?.name || 'General' }}
                 </span>
                 <span class="type-badge" [class.type-badge--seeking]="skill.type === 'seeking'">
                   {{ skill.type === 'offering' ? 'Ofrece' : 'Busca' }}
@@ -181,7 +181,7 @@
             <span class="category-badge"
               [style.background]="getCategoryColor(selectedSkill()!.category?.name) + '18'"
               [style.color]="getCategoryColor(selectedSkill()!.category?.name)">
-              {{ getCategoryIcon(selectedSkill()!.category?.name) }} {{ selectedSkill()!.category?.name || 'General' }}
+              {{ selectedSkill()!.category?.name || 'General' }}
             </span>
             <span class="type-badge" [class.type-badge--seeking]="selectedSkill()!.type === 'seeking'">
               {{ selectedSkill()!.type === 'offering' ? 'Ofrece' : 'Busca' }}

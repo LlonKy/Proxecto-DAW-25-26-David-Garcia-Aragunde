@@ -29,30 +29,30 @@
       </div>
     }
 
+    <!-- Menú hamburguesa (solo móvil) -->
+    <button
+      class="hamburger"
+      [class.hamburger--open]="menuOpen()"
+      (click)="toggleMenu()"
+      aria-label="Abrir menú"
+      [attr.aria-expanded]="menuOpen()"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
     @if (!isLoggedIn()) {
-      <nav class="header-nav" aria-label="Navegación principal">
+      <nav class="header-nav" [class.header-nav--open]="menuOpen()" aria-label="Navegación principal">
         <ul role="list">
-          <li><a routerLink="/skills" routerLinkActive="active">Explorar</a></li>
-          <li><a routerLink="/login" class="btn-outline">Entrar</a></li>
-          <li><a routerLink="/register" class="btn-primary">Registrarse</a></li>
+          <li><a routerLink="/skills" routerLinkActive="active" (click)="closeMenu()">Explorar</a></li>
+          <li><a routerLink="/login" class="btn-outline" (click)="closeMenu()">Entrar</a></li>
+          <li><a routerLink="/register" class="btn-primary" (click)="closeMenu()">Registrarse</a></li>
         </ul>
       </nav>
     }
 
     @if (isLoggedIn()) {
-      <!-- Menú hamburguesa (solo móvil) -->
-      <button
-        class="hamburger"
-        [class.hamburger--open]="menuOpen()"
-        (click)="toggleMenu()"
-        aria-label="Abrir menú"
-        [attr.aria-expanded]="menuOpen()"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
       <nav class="header-nav" [class.header-nav--open]="menuOpen()" aria-label="Navegación principal">
         <ul role="list">
           <li><a routerLink="/skills" routerLinkActive="active" (click)="closeMenu()">Explorar</a></li>

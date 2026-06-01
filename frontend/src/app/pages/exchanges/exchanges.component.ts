@@ -3,23 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
-
-interface SkillExchange {
-  skill_id: number;
-  role: 'offered' | 'received';
-  skill: { id: number; name: string };
-}
-
-interface Exchange {
-  id: number;
-  requester_id: number;
-  receiver_id: number;
-  status: 'pending' | 'accepted' | 'in_progress' | 'completed' | 'rejected';
-  created_at: string;
-  requester: { id: number; name: string };
-  receiver:  { id: number; name: string };
-  skill_exchanges: SkillExchange[];
-}
+import { Exchange, SkillExchange } from '../../models/exchange.model';
 
 @Component({
   selector: 'app-exchanges',

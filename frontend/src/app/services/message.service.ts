@@ -1,23 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Message {
-  id: number;
-  sender_id: number;
-  receiver_id: number;
-  exchange_id?: number;
-  content: string;
-  created_at: string;
-  sender?: { id: number; name: string; photo?: string };
-  receiver?: { id: number; name: string; photo?: string };
-}
-
-export interface MessageInput {
-  receiver_id: number;
-  content: string;
-  exchange_id?: number;
-}
+import { Message, MessageInput } from '../models/message.model';
 
 @Injectable({ providedIn: 'root' })
 export class MessageService {

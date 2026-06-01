@@ -16,13 +16,10 @@ $white: #ffffff;
   margin: 0 auto;
   padding: 2.5rem 1.5rem;
   display: flex;
-  gap: 3rem;
-  align-items: flex-start;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
 }
 
 .footer-brand {
@@ -33,7 +30,7 @@ $white: #ffffff;
     margin: 0.5rem 0 0;
     font-size: 0.85rem;
     color: $gray;
-    max-width: 220px;
+    max-width: 100%;
     line-height: 1.5;
   }
 }
@@ -43,8 +40,14 @@ nav ul {
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1.5rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
   a {
     text-decoration: none;

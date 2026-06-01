@@ -151,9 +151,22 @@ input, textarea {
   select {
     appearance: none;
     width: 100%;
-    padding-right: 2.5rem;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
     cursor: pointer;
     background: $white;
+    border: 1.5px solid $border;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: $black;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: $green;
+      box-shadow: 0 0 0 3px rgba($green, 0.12);
+    }
   }
 
   .select-arrow {

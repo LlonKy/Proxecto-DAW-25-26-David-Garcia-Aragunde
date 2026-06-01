@@ -5,19 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
-
-interface Message {
-  id: number;
-  sender_id: number;
-  receiver_id: number;
-  content: string;
-  created_at: string;
-}
-
-interface OtherUser {
-  id: number;
-  name: string;
-}
+import { Message } from '../../models/message.model';
+import { OtherUser } from '../../models/user.model';
 
 @Component({
   selector: 'app-messages',

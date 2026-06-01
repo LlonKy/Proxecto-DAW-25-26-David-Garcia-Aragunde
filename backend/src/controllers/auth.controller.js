@@ -9,6 +9,10 @@ const register = async (req, res) => {
     return res.status(400).json({ error: 'Name, email and password are required' })
   }
 
+  if (password.length < 6) {
+    return res.status(400).json({ error: 'La contraseña debe tener al menos 6 caracteres' })
+  }
+
   try {
     const existingUser = await prisma.user.findUnique({ where: { email } })
     if (existingUser) {

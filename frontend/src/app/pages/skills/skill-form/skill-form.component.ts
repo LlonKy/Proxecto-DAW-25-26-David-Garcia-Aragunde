@@ -52,7 +52,12 @@ export class SkillForm implements OnInit {
 
   loadCategories(): void {
     this.http.get<Category[]>(`${this.apiUrl}/categories`).subscribe({
-      next: c => this.categories.set(c)
+      next: c => {
+        const unique = c.filter((cat, index, self) =>
+          self.findIndex(t => t.name === cat.name) === index
+        );
+        this.categories.set(unique);
+      }
     });
   }
 

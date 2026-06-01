@@ -1,18 +1,8 @@
 import { Injectable, signal, computed, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
-
-interface Exchange {
-  id: number;
-  status: string;
-  receiver_id: number;
-}
-
-interface Message {
-  id: number;
-  read_at: string | null;
-  receiver_id: number;
-}
+import { Exchange } from '../models/exchange.model';
+import { Message } from '../models/message.model';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService implements OnDestroy {

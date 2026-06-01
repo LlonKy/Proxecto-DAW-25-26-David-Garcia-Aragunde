@@ -1,25 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Skill {
-  id: number;
-  name: string;
-  description: string;
-  type: 'offering' | 'seeking';
-  category_id: number;
-  user_id: number;
-  created_at: string;
-  category?: { id: number; name: string };
-  user?: { id: number; name: string; photo?: string };
-}
-
-export interface SkillInput {
-  name: string;
-  description?: string;
-  type: 'offering' | 'seeking';
-  category_id: number;
-}
+import { Skill, SkillInput } from '../models/skill.model';
 
 @Injectable({ providedIn: 'root' })
 export class SkillService {
