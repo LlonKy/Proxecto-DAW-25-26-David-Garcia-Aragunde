@@ -1,0 +1,67 @@
+$green: #1DB954;
+$black: #111;
+$gray: #6b7280;
+$border: #e4e4e7;
+$white: #ffffff;
+
+.site-footer {
+  background: #fafafa;
+  border-top: 1px solid $border;
+  font-family: 'DM Sans', sans-serif;
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.footer-brand {
+  .logo-icon { font-size: 1.3rem; color: $green; margin-right: 0.4rem; }
+  .logo-text  { font-size: 1.2rem; font-weight: 700; color: $black; }
+
+  p {
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    color: $gray;
+    max-width: 100%;
+    line-height: 1.5;
+  }
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1.5rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: $gray;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    &:hover { color: $black; }
+  }
+}
+
+.footer-bottom {
+  border-top: 1px solid $border;
+  text-align: center;
+  padding: 1rem;
+
+  small { color: $gray; font-size: 0.8rem; }
+}
