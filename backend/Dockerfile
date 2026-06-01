@@ -10,6 +10,7 @@ RUN npx prisma generate
 
 COPY src ./src
 
+
 EXPOSE 3001
 
 COPY start.sh ./
