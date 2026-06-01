@@ -16,17 +16,6 @@
           <a href="#how" class="btn-outline">¿Cómo funciona?</a>
         </div>
       </div>
-
-      <div class="hero-bubbles" aria-hidden="true">
-        <div class="bubble bubble--1">💻</div>
-        <div class="bubble bubble--2">🎵</div>
-        <div class="bubble bubble--3">📚</div>
-        <div class="bubble bubble--4">🎨</div>
-        <div class="bubble bubble--5">💬</div>
-        <div class="bubble bubble--6">🍳</div>
-        <div class="bubble bubble--7">⚡</div>
-        <div class="bubble bubble--8">📷</div>
-      </div>
     </div>
   </section>
 
@@ -73,13 +62,7 @@
               <span class="category-badge"
                 [style.background]="skill.categoryColor + '18'"
                 [style.color]="skill.categoryColor">
-                {{ skill.categoryIcon }} {{ skill.category }}
-              </span>
-              <span class="category-icon-bg"
-                [style.background]="skill.categoryColor + '18'"
-                [style.color]="skill.categoryColor"
-                aria-hidden="true">
-                {{ skill.categoryIcon }}
+                {{ skill.category }}
               </span>
             </div>
 

@@ -4,27 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
-
-interface UserProfile {
-  id: number;
-  name: string;
-  email: string;
-  description: string | null;
-  role: string;
-  created_at: string;
-  skills?: Skill[];
-  ratings?: Rating[];
-}
-
-interface Skill {
-  id: number;
-  name: string;
-  description: string;
-  type: 'offering' | 'seeking';
-  category?: { name: string; color?: string };
-}
-
-interface Rating { score: number; }
+import { UserProfile, Rating } from '../../models/user.model';
+import { Skill } from '../../models/skill.model';
 
 @Component({
   selector: 'app-profile',

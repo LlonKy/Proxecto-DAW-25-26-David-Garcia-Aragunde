@@ -1,21 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface ExchangeRequest {
-  receiver_id: number;
-  offered_skill_id: number;
-  requested_skill_id: number;
-}
-
-export interface Exchange {
-  id: number;
-  requester_id: number;
-  receiver_id: number;
-  status: 'pending' | 'accepted' | 'in_progress' | 'completed' | 'rejected';
-  created_at: string;
-  updated_at: string;
-}
+import { Exchange, ExchangeRequest } from '../models/exchange.model';
 
 @Injectable({ providedIn: 'root' })
 export class ExchangeService {

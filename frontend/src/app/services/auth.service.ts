@@ -2,18 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-
-export interface AuthUser {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-}
-
-export interface AuthResponse {
-  token: string;
-  user: AuthUser;
-}
+import { AuthUser, AuthResponse } from '../models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
