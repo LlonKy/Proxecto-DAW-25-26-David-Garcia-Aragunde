@@ -35,6 +35,10 @@ docker compose up --build
 
 Con eso ya está todo. Docker se encarga de levantar la base de datos, el backend y el frontend. Una vez arrancado, la aplicación es accesible en `http://localhost:4200`.
 
+Credenciales de login usuario normal:
+email: laura@swaply.com,
+password: password123
+
 ---
 
 #### Despliegue en un entorno real
